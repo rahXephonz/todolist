@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import Navigation from "routes/Navigation";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Navigation from "routes/Navigation";
 
 const queryClient = new QueryClient({
   defaultOptions: {

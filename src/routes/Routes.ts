@@ -1,7 +1,10 @@
-import { List } from "pages/index";
+import { Detail, List } from "pages/index";
 
 const ROUTES = {
-  PUBLIC: [{ PATH: "/", NAME: `Homepage`, COMPONENT: List }],
+  PUBLIC: [
+    { PATH: "/list", NAME: `List`, COMPONENT: List },
+    { PATH: "/detail", NAME: `Detail`, COMPONENT: Detail },
+  ],
 };
 
 export default ROUTES;

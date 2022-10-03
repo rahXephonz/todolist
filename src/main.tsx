@@ -10,7 +10,7 @@ const rootElement = document.getElementById("root");
 const renderRoot = createRoot(rootElement as RootElement);
 
 renderRoot.render(
-  <React.Fragment>
+  <React.StrictMode>
     <App />
-  </React.Fragment>,
+  </React.StrictMode>,
 );

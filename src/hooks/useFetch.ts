@@ -1,13 +1,21 @@
 import { useQuery } from "react-query";
 import todosService from "services/todos";
-import userService from "services/user";
+import activitiesService from "services/activities";
 
-const useFetchTodos = () => {
-  return useQuery(["listTodos"], () => todosService.getTodosData(1));
+const useFetchTodos = (no?: number) => {
+  return useQuery(["listTodos"], () => todosService.getAllTodosData(no), {
+    keepPreviousData: true,
+  });
 };
 
-const useFetchUsers = () => {
-  return useQuery(["listUsers"], () => userService.getUsersData(1));
+const useFetchActivities = () => {
+  return useQuery(
+    ["listActivities"],
+    () => activitiesService.getAllActivitiesData(),
+    {
+      keepPreviousData: true,
+    },
+  );
 };
 
-export { useFetchTodos, useFetchUsers };
+export { useFetchTodos, useFetchActivities };

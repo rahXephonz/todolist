@@ -1,21 +1,20 @@
 import { z } from "zod";
 
-export const UsersType = z.object({
-  email: z.string(),
+export const TypeTodos = z.object({
   id: z.number(),
-  name: z.string(),
-  phone: z.string(),
-  username: z.string(),
-  website: z.string(),
-});
-
-export type Users = z.infer<typeof UsersType>;
-
-export const TodosType = z.object({
-  id: z.number(),
+  activity_group_id: z.string(),
   title: z.string(),
-  completed: z.boolean(),
-  userId: z.number(),
+  is_active: z.string(),
+  priority: z.string(),
+  created_at: z.string(),
 });
 
-export type Todos = z.infer<typeof TodosType>;
+export const TypeActivities = z.object({
+  id: z.number(),
+  email: z.string(),
+  title: z.string(),
+  created_at: z.string(),
+});
+
+export type Todos = z.infer<typeof TypeTodos>;
+export type Activites = z.infer<typeof TypeActivities>;
