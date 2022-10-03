@@ -1,10 +1,11 @@
 import apiClient from "libs/apiClient";
+import { transformObjectKeysToCamelCase } from "libs/transforms";
 import { Activites } from "types/data";
 
 const getDetailActivitiesData = async (no: number) => {
   const response = await apiClient.get<{ data: Activites }>(`/todos/${no}`);
 
-  return response.data;
+  return transformObjectKeysToCamelCase(response.data);
 };
 
 // only get my activites data with filter
@@ -13,7 +14,7 @@ const getAllActivitiesData = async () => {
     `/activity-groups?email=mrizkyy027@gmail.com`,
   );
 
-  return response.data;
+  return transformObjectKeysToCamelCase(response.data);
 };
 
 const activitiesService = { getDetailActivitiesData, getAllActivitiesData };

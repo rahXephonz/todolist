@@ -1,9 +1,16 @@
-import { useFetchActivities } from "hooks/useFetch";
+import { useFetchTodos } from "hooks/useFetch";
 
 export const List = () => {
-  const { data, isLoading } = useFetchActivities();
+  const { data, isLoading } = useFetchTodos();
 
-  console.log(isLoading, data);
+  if (isLoading) return <p>Loading...</p>;
 
-  return <div>Query Data</div>;
+  return (
+    <div>
+      Query Data,
+      {data?.data.map((item) => (
+        <p key={item.id}>{item.isActive}</p>
+      ))}
+    </div>
+  );
 };
