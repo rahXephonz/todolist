@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "react-query";
-import { Activites } from "types/data";
+import { Activities, Todos } from "types/data";
 import activitiesService from "services/activities";
+import todosService from "services/todos";
 
 export const useCreateActivities = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (json: Partial<Activites>) =>
-      activitiesService.createActivities({ ...json }),
+    (json: Activities) => activitiesService.createActivities({ ...json }),
     {
       onSuccess: () => queryClient.invalidateQueries("listActivities"),
     },
@@ -18,10 +18,14 @@ export const useUpdateActivities = () => {
 };
 
 export const useDeleteActivities = () =>
-  useMutation((no: number) => activitiesService.deleteActivities(no));
+  useMutation((id: number) => activitiesService.deleteActivities(id));
 
 export const useCreateTodos = () => {
-  return;
+  const queryClient = useQueryClient();
+
+  return useMutation((json: Todos) => todosService.createTodos({ ...json }), {
+    onSuccess: () => queryClient.invalidateQueries("listTodos"),
+  });
 };
 
 export const useUpdateTodos = () => {

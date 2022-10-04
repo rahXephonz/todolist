@@ -6,7 +6,7 @@ import { useDeleteActivities } from "hooks/useMutation";
 import TrashIcon from "components/icon/TrashIcon";
 import Modal, { ChildModal } from "components/Modal";
 import useDisclosure from "hooks/useDisclosure";
-import { Activites } from "types/data";
+import { Activities } from "types/data";
 import { transformObjectKeysToCamelCase } from "libs/transforms";
 
 type ListActivityProps = {
@@ -15,7 +15,7 @@ type ListActivityProps = {
 };
 
 const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
-  const dataProps = props as Activites;
+  const dataProps = props as Activities;
   const [childModalOpen, setChildModalOpen] = useState(false);
 
   const { push } = useRouter();
@@ -39,7 +39,7 @@ const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
     <>
       <div className="card-content" key={id}>
         <div
-          className="card-parents h-60 shadow-normal rounded-xl relative mb-5 p-7"
+          className="card-parents h-60 shadow-normal rounded-xl relative mb-5 p-7 bg-white"
           data-cy="activity-item"
         >
           <div

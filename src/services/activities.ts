@@ -1,24 +1,26 @@
 import apiClient from "libs/apiClient";
 import { transformObjectKeysToCamelCase } from "libs/transforms";
-import { Activites } from "types/data";
+import { Activities } from "types/data";
 
-const getDetailActivitiesData = async (no: number) => {
-  const response = await apiClient.get<{ data: Activites }>(`/todos/${no}`);
+const getDetailActivitiesData = async (id: number) => {
+  const response = await apiClient.get<{ data: Activities }>(
+    `/activity-groups/${id}`,
+  );
 
   return transformObjectKeysToCamelCase(response.data);
 };
 
-// only get my activites data with filter
+// only get my Activities data with filter
 const getAllActivitiesData = async () => {
-  const response = await apiClient.get<{ data: Activites[] }>(
+  const response = await apiClient.get<{ data: Activities[] }>(
     "/activity-groups?email=mrizkyy027@gmail.com",
   );
 
   return transformObjectKeysToCamelCase(response.data);
 };
 
-const createActivities = async ({ email, title }: Activites) => {
-  const response = await apiClient.post<Activites>("/activity-groups", {
+const createActivities = async ({ email, title }: Activities) => {
+  const response = await apiClient.post<Activities>("/activity-groups", {
     email,
     title,
   });
@@ -26,8 +28,8 @@ const createActivities = async ({ email, title }: Activites) => {
   return response.data;
 };
 
-const deleteActivities = async (no: number) => {
-  const response = await apiClient.delete(`/activity-groups/${no}`);
+const deleteActivities = async (id: number) => {
+  const response = await apiClient.delete(`/activity-groups/${id}`);
 
   return response.data;
 };

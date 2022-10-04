@@ -2,20 +2,30 @@ import apiClient from "libs/apiClient";
 import { transformObjectKeysToCamelCase } from "libs/transforms";
 import { Todos } from "types/data";
 
-const getDetailTodosData = async (no: number) => {
-  const response = await apiClient.get<{ data: Todos }>(`/todo-items/${no}`);
+const getDetailTodosData = async (id: number) => {
+  const response = await apiClient.get<{ data: Todos }>(`/todo-items/${id}`);
 
   return transformObjectKeysToCamelCase(response.data);
 };
 
-const getAllTodosData = async (no?: number) => {
+const getAllTodosData = async (id: number) => {
   const response = await apiClient.get<{ data: Todos[] }>(
-    `/todo-items${no ? `?activity_group_id=${no}` : ""}`,
+    `/todo-items${id ? `?activity_group_id=${id}` : ""}`,
   );
 
   return transformObjectKeysToCamelCase(response.data);
 };
 
-const todosService = { getDetailTodosData, getAllTodosData };
+const createTodos = async ({ title, activity_group_id, priority }: Todos) => {
+  const response = await apiClient.post<Todos>("/todo-items", {
+    activity_group_id,
+    title,
+    priority,
+  });
+
+  return response.data;
+};
+
+const todosService = { getDetailTodosData, getAllTodosData, createTodos };
 
 export default todosService;

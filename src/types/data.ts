@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+export enum PriorityEnum {
+  "normal",
+  "high",
+  "very-high",
+  "low",
+  "very-low",
+}
+
 export const TypeTodos = z.object({
   id: z.number(),
   activity_group_id: z.string(),
@@ -16,5 +24,7 @@ export const TypeActivities = z.object({
   created_at: z.string(),
 });
 
+export type Priority = keyof typeof PriorityEnum;
+
 export type Todos = z.infer<typeof TypeTodos>;
-export type Activites = z.infer<typeof TypeActivities>;
+export type Activities = z.infer<typeof TypeActivities>;

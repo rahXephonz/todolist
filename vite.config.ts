@@ -18,7 +18,7 @@ export default defineConfig((configEnv) => {
         routes: resolve(__dirname, "src", "routes"),
         libs: resolve(__dirname, "src", "libs"),
         types: resolve(__dirname, "src", "types"),
-        config: resolve(__dirname, "src", "config"),
+        utils: resolve(__dirname, "src", "utils"),
       },
     },
     css: {

@@ -2,12 +2,12 @@ import cx from "classnames";
 import Helmet from "components/Helmet";
 import TablePlus from "components/icon/TablePlus";
 
-import EmptyState from "components/icon/EmptyState";
 import Spinner from "components/icon/Spinner";
 import ListActivity from "./components/ListActivity";
 
-import { useFetchActivities } from "hooks/useFetch";
+import { useFetchAllActivities } from "hooks/useFetch";
 import { useCreateActivities } from "hooks/useMutation";
+import { ActivityEmptyState } from "components/icon/EmptyState";
 
 export const List = () => {
   const {
@@ -15,7 +15,7 @@ export const List = () => {
     isLoading: listLoading,
     isError: listError,
     refetch,
-  } = useFetchActivities();
+  } = useFetchAllActivities();
 
   const { mutate: createActivity, isLoading: createLoading } =
     useCreateActivities();
@@ -68,7 +68,7 @@ export const List = () => {
             ))
           : !listLoading && (
               <div className="flex justify-center w-full mt-20">
-                <EmptyState
+                <ActivityEmptyState
                   dataTesting="activity-empty-state"
                   onClick={onCreate}
                 />
