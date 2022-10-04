@@ -12,6 +12,7 @@
   ],
   "rules": {
     "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
     "comma-dangle": "off",
     "multiline-ternary": "off",
     "no-use-before-define": "off",

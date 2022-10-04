@@ -1,4 +1,5 @@
 import React from "react";
+import Layout from "./layout/Layout";
 import { createRoot } from "react-dom/client";
 // tailwind styles
 import "styles/index.css";
@@ -11,6 +12,8 @@ const renderRoot = createRoot(rootElement as RootElement);
 
 renderRoot.render(
   <React.StrictMode>
-    <App />
+    <Layout>
+      <App />
+    </Layout>
   </React.StrictMode>,
 );

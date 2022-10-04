@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { HelmetProvider } from "react-helmet-async";
 import Navigation from "routes/Navigation";
 
 const queryClient = new QueryClient({
@@ -14,9 +15,11 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <BrowserRouter basename="/">
-      <QueryClientProvider client={queryClient}>
-        <Navigation />
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <Navigation />
+        </QueryClientProvider>
+      </HelmetProvider>
     </BrowserRouter>
   );
 };
