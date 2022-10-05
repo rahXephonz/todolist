@@ -39,7 +39,7 @@ const Popup = ({
 
   const watchValue = watch("title");
   const isLoading = createLoading || updateLoading;
-  const isDisabled = !watchValue?.length || titleTodo === watchValue;
+  const isDisabled = !watchValue?.length;
 
   const onSubmit = useCallback(
     ({ title }) => {
@@ -114,7 +114,7 @@ const Popup = ({
               >
                 <div className="flex justify-between items-center">
                   <p className="text-lg font-bold">
-                    Edit Atau Tambah List Item
+                    {action === "create" ? "Tambah" : "Edit"} List Item
                   </p>
                   <button type="button" onClick={closeModal}>
                     <CloseIcon />
