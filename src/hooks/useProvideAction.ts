@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { GlobalStateContext } from "./context/ActionContext";
+import { ActionStateContext } from "./context/ActionContext";
 
 const useProvideAction = () => {
-  const context = useContext(GlobalStateContext);
+  const context = useContext(ActionStateContext);
 
   if (!context) {
-    throw new Error("useGlobalState must be used within a GlobalStateContext");
+    throw new Error("useGlobalState must be used within a ActionStateContext");
   }
   return context;
 };

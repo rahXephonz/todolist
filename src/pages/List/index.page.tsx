@@ -1,7 +1,6 @@
 import cx from "classnames";
 import Helmet from "components/Helmet";
 import TablePlus from "components/icon/TablePlus";
-
 import Spinner from "components/icon/Spinner";
 import ListActivity from "./components/ListActivity";
 
@@ -49,7 +48,7 @@ export const List = () => {
 
       <div
         className={cx("dashboard-content", {
-          "grid grid-cols-4 gap-y-3 gap-x-6": listActivity?.data.length > 0,
+          "grid grid-cols-4 gap-y-3 gap-x-5": listActivity?.data.length > 0,
         })}
       >
         {listError && (
@@ -62,7 +61,7 @@ export const List = () => {
             <Spinner />
           </div>
         )}
-        {listActivity?.data.length > 0
+        {listActivity?.data.length
           ? listActivity?.data.map((item) => (
               <ListActivity key={item.id} {...item} refetch={refetch} />
             ))

@@ -6,33 +6,33 @@ import React, {
 } from "react";
 import { Priority } from "types/data";
 
-export interface IGlobalState {
+export interface IActionState {
   typeAction: "update" | "create";
   priority: Priority;
 }
 
-const GlobalStateContext = createContext({
-  state: {} as Partial<IGlobalState>,
-  setState: {} as Dispatch<SetStateAction<Partial<IGlobalState>>>,
+const ActionStateContext = createContext({
+  state: {} as Partial<IActionState>,
+  setState: {} as Dispatch<SetStateAction<Partial<IActionState>>>,
 });
 
-const GlobalStateProvider = ({
+const ActionStateProvider = ({
   children,
   value = {
     typeAction: null,
     priority: "normal",
-  } as IGlobalState,
+  } as IActionState,
 }: {
   children: React.ReactNode;
-  value?: Partial<IGlobalState>;
+  value?: Partial<IActionState>;
 }) => {
   const [state, setState] = useState(value);
 
   return (
-    <GlobalStateContext.Provider value={{ state, setState }}>
+    <ActionStateContext.Provider value={{ state, setState }}>
       {children}
-    </GlobalStateContext.Provider>
+    </ActionStateContext.Provider>
   );
 };
 
-export { GlobalStateContext, GlobalStateProvider };
+export { ActionStateContext, ActionStateProvider };

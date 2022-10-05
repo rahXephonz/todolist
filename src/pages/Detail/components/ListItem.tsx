@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Priority } from "types/data";
 import cx from "classnames";
 import getColor from "utils/getColor";
 import useProvideAction from "hooks/useProvideAction";
+import useOnClickOutside from "use-onclickoutside";
 
 const optionList: Array<Priority> = [
   "very-high",
@@ -19,6 +20,8 @@ type ListItemProps = {
 
 const ListItem = ({ itemPriority, action }: ListItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
+
   const { setState } = useProvideAction();
 
   const onSetPriority = useCallback(
@@ -31,6 +34,8 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
     },
     [action, setState],
   );
+
+  useOnClickOutside(ref, () => setIsOpen(false));
 
   return (
     <>
@@ -71,6 +76,7 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
       </button>
       {isOpen && (
         <div
+          ref={ref}
           id="dropdown"
           className="z-10 w-44 bg-gray divide-y mt-2 rounded-lg border-gray-300 border"
         >

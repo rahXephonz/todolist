@@ -2,7 +2,7 @@ import Popup from "./components/Popup";
 import Helmet from "components/Helmet";
 import BackIcon from "components/icon/BackIcon";
 import EditIcon from "components/icon/EditIcon";
-import SortIcon from "components/icon/SortIcon";
+
 import Spinner from "components/icon/Spinner";
 import TablePlus from "components/icon/TablePlus";
 import ListTodos from "./components/ListTodos";
@@ -15,7 +15,9 @@ import { useForm } from "react-hook-form";
 import { useUpdateActivities } from "hooks/useMutation";
 import useDisclosure from "hooks/useDisclosure";
 import useProvideAction from "hooks/useProvideAction";
+import useProvideTodos from "hooks/useProvideTodos";
 import useOnClickOutside from "use-onclickoutside";
+import Dropdown from "./components/DropDown";
 
 export const Detail = () => {
   const [modeEdit, setModeEdit] = useState(false);
@@ -24,6 +26,10 @@ export const Detail = () => {
   const { id } = query;
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { setState } = useProvideAction();
+  const {
+    setState: setTodos,
+    state: { todosItem },
+  } = useProvideTodos();
   const ref = useRef();
   const idQuery = parseInt(id as string);
 
@@ -48,10 +54,12 @@ export const Detail = () => {
   }, [id, push]);
 
   useEffect(() => {
-    if (title) {
-      reset({ title });
-    }
+    if (title) reset({ title });
   }, [reset, title]);
+
+  useEffect(() => {
+    if (listTodos) setTodos({ todosItem: listTodos.data });
+  }, [listTodos, setTodos]);
 
   const onClickOutside = () => {
     setModeEdit(false);
@@ -96,7 +104,7 @@ export const Detail = () => {
             <input
               autoFocus
               {...register("title")}
-              placeholder="Custom title in here"
+              placeholder=""
               type="text"
               onKeyDown={onHandleKeyPress}
               className="py-1 md:py-2 text-xl font-bold md:text-3xl bg-transparent border-b 
@@ -112,16 +120,7 @@ export const Detail = () => {
         </div>
 
         <div className="action-menu flex space-x-4 items-center">
-          <button
-            type="button"
-            title="sorting data"
-            className="rounded-full bg-transparent h-14 w-14 border 
-            border-solid border-gray-300"
-          >
-            <div className="flex justify-center">
-              <SortIcon />
-            </div>
-          </button>
+          <Dropdown />
 
           <button
             type="button"
@@ -147,8 +146,8 @@ export const Detail = () => {
           </div>
         )}
 
-        {listTodos?.data?.length
-          ? listTodos?.data.map((item) => (
+        {todosItem?.length
+          ? todosItem?.map((item) => (
               <ListTodos todos={item} key={item.id} refetch={refetch} />
             ))
           : !listLoading && (
@@ -156,7 +155,7 @@ export const Detail = () => {
                 className="flex justify-center w-full mt-10"
                 data-cy="todo-empty-state"
               >
-                <TodoEmptyState onClick={() => onOpen()} />
+                <TodoEmptyState onClick={onAddTodos} />
               </div>
             )}
       </div>

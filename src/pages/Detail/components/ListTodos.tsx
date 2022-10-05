@@ -1,6 +1,6 @@
 import { Priority, Todos } from "types/data";
 import { useDeleteTodos, useUpdateTodos } from "hooks/useMutation";
-import { useState } from "react";
+import { useState, memo } from "react";
 import Modal, { ChildModal } from "components/Modal";
 import TrashIcon from "components/icon/TrashIcon";
 import cx from "classnames";
@@ -124,4 +124,4 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   );
 };
 
-export default ListTodos;
+export default memo(ListTodos);

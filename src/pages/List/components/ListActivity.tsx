@@ -1,6 +1,6 @@
 import { useRouter } from "hooks/useRouter";
 import { convertDate } from "libs/dayJs";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useDeleteActivities } from "hooks/useMutation";
 
 import lib from "libs/transforms";
@@ -84,4 +84,4 @@ const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
   );
 };
 
-export default ListActivity;
+export default memo(ListActivity);

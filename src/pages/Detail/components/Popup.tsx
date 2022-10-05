@@ -34,11 +34,20 @@ const Popup = ({
     state: { typeAction: action, priority },
   } = useProvideAction();
 
-  const { mutate: createTodos, isLoading: createLoading } = useCreateTodos();
-  const { mutate: updateTodos, isLoading: updateLoading } = useUpdateTodos();
+  const {
+    mutate: createTodos,
+    isLoading: createLoading,
+    isSuccess: createSuccess,
+  } = useCreateTodos();
+  const {
+    mutate: updateTodos,
+    isLoading: updateLoading,
+    isSuccess: updateSuccess,
+  } = useUpdateTodos();
 
   const watchValue = watch("title");
   const isLoading = createLoading || updateLoading;
+  const isSuccess = createSuccess || updateSuccess;
   const isDisabled = !watchValue?.length;
 
   const onSubmit = useCallback(
@@ -63,24 +72,18 @@ const Popup = ({
           json: lib.transformObjectKeysToSnakeCase(data),
         });
       }
-
-      closeModal();
     },
-    [
-      action,
-      closeModal,
-      activityId,
-      priority,
-      createTodos,
-      updateTodos,
-      todoId,
-    ],
+    [action, activityId, priority, createTodos, updateTodos, todoId],
   );
 
   useEffect(() => {
     if (action === "update") reset({ title: titleTodo });
     else reset(null);
   }, [action, reset, titleTodo]);
+
+  useEffect(() => {
+    if (isSuccess) closeModal();
+  }, [closeModal, isSuccess]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -114,7 +117,7 @@ const Popup = ({
               >
                 <div className="flex justify-between items-center">
                   <p className="text-lg font-bold">
-                    {action === "create" ? "Tambah" : "Edit"} List Item
+                    {action === "create" ? "Tambah" : "Ubah"} List Item
                   </p>
                   <button type="button" onClick={closeModal}>
                     <CloseIcon />
@@ -148,7 +151,7 @@ const Popup = ({
 
                     <div className="mt-4 absolute bottom-7 right-7">
                       <button
-                        disabled={isDisabled}
+                        disabled={action === "create" && isDisabled}
                         type="submit"
                         className={cx(
                           "rounded-full bg-blue px-8 py-3 text-lg font-medium text-white",
@@ -162,7 +165,7 @@ const Popup = ({
                         ) : action === "create" ? (
                           "Simpan"
                         ) : (
-                          "Update"
+                          "Ubah"
                         )}
                       </button>
                     </div>

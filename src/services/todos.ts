@@ -1,6 +1,6 @@
 import apiClient from "libs/apiClient";
 import lib from "libs/transforms";
-import { Todos } from "types/data";
+import type { Todos } from "types/data";
 
 const getAllTodosData = async (id: number) => {
   const response = await apiClient.get<{ data: Todos[] }>(

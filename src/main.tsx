@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "./layout/Layout";
 import { createRoot } from "react-dom/client";
+
 // tailwind styles
 import "styles/index.css";
 import App from "./App";

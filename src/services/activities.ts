@@ -1,6 +1,6 @@
 import apiClient from "libs/apiClient";
 import lib from "libs/transforms";
-import { Activities } from "types/data";
+import type { Activities } from "types/data";
 
 const getDetailActivitiesData = async (id: number) => {
   const response = await apiClient.get<Activities>(`/activity-groups/${id}`);
