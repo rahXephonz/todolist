@@ -142,8 +142,9 @@ const Popup = ({
                       >
                         nama list item
                       </label>
-                      <div data-cy="modal-add-name-input">
+                      <div>
                         <input
+                          data-cy="modal-add-name-input"
                           name="title"
                           {...register("title", {
                             required: "Required",

@@ -2,6 +2,13 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import SortIcon from "components/icon/SortIcon";
 import useProvideTodos from "hooks/useProvideTodos";
+import {
+  AZ,
+  SelectionOne,
+  SelectionThree,
+  SelectionTwo,
+  ZA,
+} from "components/icon/CommonIcon";
 
 const Dropdown = () => {
   const { state, setState } = useProvideTodos();
@@ -40,11 +47,45 @@ const Dropdown = () => {
     setState({ todosItem: sorted });
   };
 
+  const items = [
+    {
+      id: 0,
+      icon: <SelectionOne />,
+      title: "Terlama",
+      function: sortedOlder,
+    },
+    {
+      id: 1,
+      icon: <SelectionTwo />,
+      title: "Terbaru",
+      function: sortedNewer,
+    },
+    {
+      id: 2,
+      icon: <AZ />,
+      title: "A - Z",
+      function: sortedAZ,
+    },
+    {
+      id: 3,
+      icon: <ZA />,
+      title: "Z - A",
+      function: sortedZA,
+    },
+    {
+      id: 4,
+      icon: <SelectionThree />,
+      title: "Belum Selesai",
+      function: sortedIncomplete,
+    },
+  ];
+
   return (
     <div className="w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button
+            title="sort button"
             data-cy="todo-sort-button"
             className="justify-center rounded-full px-4 py-2 mt-2 bg-transparent h-14 w-14 border 
             border-solid border-gray-300"
@@ -65,76 +106,26 @@ const Dropdown = () => {
             className="absolute mt-2 w-56 origin-top-right divide-y
            divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
-            <div className="px-1 py-1 ">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="button"
-                    className={`${
-                      active ? "bg-blue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={sortedNewer}
-                  >
-                    Terbaru
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-blue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={sortedOlder}
-                  >
-                    Terlama
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-            <div className="px-1 py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="button"
-                    className={`${
-                      active ? "bg-blue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={sortedAZ}
-                  >
-                    A - Z
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="button"
-                    className={`${
-                      active ? "bg-blue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={sortedZA}
-                  >
-                    Z - A
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-            <div className="px-1 py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="button"
-                    className={`${
-                      active ? "bg-blue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={sortedIncomplete}
-                  >
-                    Belum Selesai
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
+            {items.map((item) => (
+              <div className="px-1 py-1" key={item.id} data-cy="sort-selection">
+                <Menu.Item data-cy="sort-selection-selected">
+                  {({ active }) => (
+                    <div>
+                      <button
+                        type="button"
+                        className={`${
+                          active && "bg-gray-200 text-gray-900"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-3`}
+                        onClick={item.function}
+                      >
+                        {item.icon}
+                        <span data-cy="sort-selection-title">{item.title}</span>
+                      </button>
+                    </div>
+                  )}
+                </Menu.Item>
+              </div>
+            ))}
           </Menu.Items>
         </Transition>
       </Menu>
