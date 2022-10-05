@@ -3,11 +3,11 @@ import { convertDate } from "libs/dayJs";
 import { useState } from "react";
 import { useDeleteActivities } from "hooks/useMutation";
 
+import lib from "libs/transforms";
 import TrashIcon from "components/icon/TrashIcon";
 import Modal, { ChildModal } from "components/Modal";
 import useDisclosure from "hooks/useDisclosure";
 import { Activities } from "types/data";
-import { transformObjectKeysToCamelCase } from "libs/transforms";
 
 type ListActivityProps = {
   refetch: () => void;
@@ -19,12 +19,13 @@ const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
   const [childModalOpen, setChildModalOpen] = useState(false);
 
   const { push } = useRouter();
-  const { id, title, createdAt } = transformObjectKeysToCamelCase(dataProps);
+  const { id, title, createdAt } =
+    lib.transformObjectKeysToCamelCase(dataProps);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { mutate: deleteActivity } = useDeleteActivities();
 
-  const onDelete = (id: number) => {
+  const onDelete = () => {
     deleteActivity(id);
     onClose();
     setChildModalOpen(true);
@@ -69,7 +70,7 @@ const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
         description={`Apakah anda yakin menghapus activity “${title}“?`}
         isOpen={isOpen}
         closeModal={onClose}
-        onAction={() => onDelete(id)}
+        onAction={onDelete}
       />
 
       {childModalOpen && (

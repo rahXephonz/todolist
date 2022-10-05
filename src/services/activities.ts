@@ -1,13 +1,11 @@
 import apiClient from "libs/apiClient";
-import { transformObjectKeysToCamelCase } from "libs/transforms";
+import lib from "libs/transforms";
 import { Activities } from "types/data";
 
 const getDetailActivitiesData = async (id: number) => {
-  const response = await apiClient.get<{ data: Activities }>(
-    `/activity-groups/${id}`,
-  );
+  const response = await apiClient.get<Activities>(`/activity-groups/${id}`);
 
-  return transformObjectKeysToCamelCase(response.data);
+  return lib.transformObjectKeysToCamelCase(response.data);
 };
 
 // only get my Activities data with filter
@@ -16,7 +14,7 @@ const getAllActivitiesData = async () => {
     "/activity-groups?email=mrizkyy027@gmail.com",
   );
 
-  return transformObjectKeysToCamelCase(response.data);
+  return lib.transformObjectKeysToCamelCase(response.data);
 };
 
 const createActivities = async ({ email, title }: Activities) => {
@@ -34,11 +32,20 @@ const deleteActivities = async (id: number) => {
   return response.data;
 };
 
+const updateActivities = async (id: number, { title }: Activities) => {
+  const response = await apiClient.patch<Activities>(`/activity-groups/${id}`, {
+    title,
+  });
+
+  return response.data;
+};
+
 const activitiesService = {
   getDetailActivitiesData,
   getAllActivitiesData,
   createActivities,
   deleteActivities,
+  updateActivities,
 };
 
 export default activitiesService;

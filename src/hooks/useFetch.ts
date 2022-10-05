@@ -5,17 +5,12 @@ import activitiesService from "services/activities";
 const useFetchAllTodos = (id: number) => {
   return useQuery(["listTodos"], () => todosService.getAllTodosData(id), {
     keepPreviousData: true,
-    enabled: !!id,
   });
 };
 
 const useFetchDetailActivities = (id: number) => {
-  return useQuery(
-    ["listDetailActivity"],
-    () => activitiesService.getDetailActivitiesData(id),
-    {
-      enabled: !!id,
-    },
+  return useQuery(["listDetailActivity"], () =>
+    activitiesService.getDetailActivitiesData(id),
   );
 };
 

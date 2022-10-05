@@ -14,7 +14,15 @@ export const useCreateActivities = () => {
   );
 };
 export const useUpdateActivities = () => {
-  return;
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({ json, id }: { json: Todos; id: number }) =>
+      activitiesService.updateActivities(id, { ...json }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("listDetailActivity"),
+    },
+  );
 };
 
 export const useDeleteActivities = () =>
@@ -29,5 +37,16 @@ export const useCreateTodos = () => {
 };
 
 export const useUpdateTodos = () => {
-  return;
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({ json, id }: { json: Todos; id: number }) =>
+      todosService.updateTodos(id, { ...json }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("listTodos"),
+    },
+  );
 };
+
+export const useDeleteTodos = () =>
+  useMutation((id: number) => todosService.deleteTodos(id));

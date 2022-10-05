@@ -21,7 +21,7 @@ export const List = () => {
     useCreateActivities();
 
   const onCreate = () =>
-    createActivity({ email: "mrizkyy027@gmail.com", title: "" });
+    createActivity({ email: "mrizkyy027@gmail.com", title: "New Activity" });
 
   return (
     <>
@@ -59,7 +59,7 @@ export const List = () => {
         )}
         {listLoading && (
           <div className="flex justify-center w-full mt-20">
-            Fetching data...
+            <Spinner />
           </div>
         )}
         {listActivity?.data.length > 0
@@ -67,11 +67,11 @@ export const List = () => {
               <ListActivity key={item.id} {...item} refetch={refetch} />
             ))
           : !listLoading && (
-              <div className="flex justify-center w-full mt-20">
-                <ActivityEmptyState
-                  dataTesting="activity-empty-state"
-                  onClick={onCreate}
-                />
+              <div
+                className="flex justify-center w-full mt-20"
+                data-cy="activity-empty-state"
+              >
+                <ActivityEmptyState onClick={onCreate} />
               </div>
             )}
       </div>

@@ -1,12 +1,4 @@
-type EmptyStateProps = {
-  dataTesting: string;
-  onClick: () => void;
-};
-
-export const ActivityEmptyState = ({
-  dataTesting,
-  onClick,
-}: EmptyStateProps) => {
+export const ActivityEmptyState = ({ onClick }) => {
   return (
     <svg
       width="767"
@@ -14,7 +6,6 @@ export const ActivityEmptyState = ({
       viewBox="0 0 767 490"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      data-cy={dataTesting}
       onClick={onClick}
       className="cursor-pointer"
     >
@@ -135,7 +126,7 @@ export const ActivityEmptyState = ({
   );
 };
 
-export const TodoEmptyState = () => {
+export const TodoEmptyState = ({ onClick }) => {
   return (
     <svg
       width="541"
@@ -143,6 +134,8 @@ export const TodoEmptyState = () => {
       viewBox="0 0 541 413"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
+      className="cursor-pointer"
     >
       <g clipPath="url(#clip0_2_477)">
         <path

@@ -1,31 +1,56 @@
 import apiClient from "libs/apiClient";
-import { transformObjectKeysToCamelCase } from "libs/transforms";
+import lib from "libs/transforms";
 import { Todos } from "types/data";
-
-const getDetailTodosData = async (id: number) => {
-  const response = await apiClient.get<{ data: Todos }>(`/todo-items/${id}`);
-
-  return transformObjectKeysToCamelCase(response.data);
-};
 
 const getAllTodosData = async (id: number) => {
   const response = await apiClient.get<{ data: Todos[] }>(
     `/todo-items${id ? `?activity_group_id=${id}` : ""}`,
   );
 
-  return transformObjectKeysToCamelCase(response.data);
+  return lib.transformObjectKeysToCamelCase(response.data);
 };
 
-const createTodos = async ({ title, activity_group_id, priority }: Todos) => {
+const createTodos = async ({
+  title,
+  activity_group_id,
+  priority,
+  is_active,
+}: Todos) => {
   const response = await apiClient.post<Todos>("/todo-items", {
     activity_group_id,
     title,
     priority,
+    is_active,
   });
 
   return response.data;
 };
 
-const todosService = { getDetailTodosData, getAllTodosData, createTodos };
+const updateTodos = async (
+  id: number,
+  { is_active, priority, title, activity_group_id }: Todos,
+) => {
+  const response = await apiClient.patch<Todos>(`/todo-items/${id}`, {
+    activity_group_id,
+    title,
+    priority,
+    is_active,
+  });
+
+  return response.data;
+};
+
+const deleteTodos = async (id: number) => {
+  const response = await apiClient.delete(`/todo-items/${id}`);
+
+  return response.data;
+};
+
+const todosService = {
+  getAllTodosData,
+  createTodos,
+  updateTodos,
+  deleteTodos,
+};
 
 export default todosService;

@@ -56,12 +56,12 @@ const Modal = ({ onAction, isOpen, description, closeModal }: ModalProps) => {
                   </p>
                 </div>
 
-                <div className="mt-4 space-x-4">
+                <div className="mt-8 space-x-4">
                   <button
                     data-cy="modal-delete-cancel-button"
                     type="button"
                     className="inline-flex justify-center rounded-full
-                    bg-gray-200 px-8 py-3 text-sm font-medium text-black"
+                    bg-gray-200 px-8 py-3 text-lg font-medium text-black"
                     onClick={closeModal}
                   >
                     Batal
@@ -70,7 +70,7 @@ const Modal = ({ onAction, isOpen, description, closeModal }: ModalProps) => {
                     data-cy="modal-delete-confirm-button"
                     type="button"
                     className="inline-flex justify-center rounded-full
-                    bg-red-400 px-8 py-3 text-sm font-medium text-white"
+                    bg-red-400 px-8 py-3 text-lg font-medium text-white"
                     onClick={onAction}
                   >
                     Hapus

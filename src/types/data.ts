@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export enum PriorityEnum {
+enum PriorityEnum {
   "normal",
   "high",
   "very-high",
@@ -12,7 +12,7 @@ export const TypeTodos = z.object({
   id: z.number(),
   activity_group_id: z.string(),
   title: z.string(),
-  is_active: z.string(),
+  is_active: z.number(),
   priority: z.string(),
   created_at: z.string(),
 });

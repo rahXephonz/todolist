@@ -1,42 +1,86 @@
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
-import { Priority } from "types/data";
-import { useCreateTodos } from "hooks/useMutation";
-import { transformObjectKeysToSnakeCase } from "libs/transforms";
+import { useCreateTodos, useUpdateTodos } from "hooks/useMutation";
+import useProvideAction from "hooks/useProvideAction";
+import lib from "libs/transforms";
 import CloseIcon from "components/icon/CloseIcon";
 import cx from "classnames";
 import ListItem from "./ListItem";
 import Spinner from "components/icon/Spinner";
 
-type PopupAddProps = {
+type PopupProps = {
   isOpen: boolean;
   closeModal: () => void;
-  id: string;
+  activityId?: string;
+  todoId?: number;
+  titleTodo?: string;
 };
 
-const PopupAdd = ({ isOpen, closeModal, id }: PopupAddProps) => {
-  const [itemPriority, setItemPriority] = useState<Priority>("normal");
-  const { handleSubmit, register, watch } = useForm<{ title: string }>({
+const Popup = ({
+  isOpen,
+  closeModal,
+  activityId,
+  todoId,
+  titleTodo,
+}: PopupProps) => {
+  const { handleSubmit, register, watch, reset } = useForm<{
+    title: string;
+  }>({
     defaultValues: {},
   });
-  const isDisabled = watch("title")?.length;
-  const { mutate, isLoading } = useCreateTodos();
+
+  const {
+    state: { typeAction: action, priority },
+  } = useProvideAction();
+
+  const { mutate: createTodos, isLoading: createLoading } = useCreateTodos();
+  const { mutate: updateTodos, isLoading: updateLoading } = useUpdateTodos();
+
+  const watchValue = watch("title");
+  const isLoading = createLoading || updateLoading;
+  const isDisabled = !watchValue?.length || titleTodo === watchValue;
 
   const onSubmit = useCallback(
     ({ title }) => {
-      const data = {
-        title,
-        activityGroupId: id,
-        priority: itemPriority,
-      };
+      if (action === "create") {
+        const data = {
+          title,
+          activityGroupId: activityId,
+          priority: priority,
+          isActive: true,
+        };
 
-      mutate({ ...transformObjectKeysToSnakeCase(data) });
+        createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
+      } else {
+        const data = {
+          priority: priority,
+          title,
+        };
+
+        updateTodos({
+          id: todoId,
+          json: lib.transformObjectKeysToSnakeCase(data),
+        });
+      }
 
       closeModal();
     },
-    [closeModal, id, itemPriority, mutate],
+    [
+      action,
+      closeModal,
+      activityId,
+      priority,
+      createTodos,
+      updateTodos,
+      todoId,
+    ],
   );
+
+  useEffect(() => {
+    if (action === "update") reset({ title: titleTodo });
+    else reset(null);
+  }, [action, reset, titleTodo]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -66,10 +110,12 @@ const PopupAdd = ({ isOpen, closeModal, id }: PopupAddProps) => {
             >
               <Dialog.Panel
                 className="transform overflow-hidden rounded-2xl
-              bg-white p-7 align-middle shadow-xl transition-all w-3/5"
+              bg-white p-7 align-middle shadow-xl transition-all w-5/12"
               >
                 <div className="flex justify-between items-center">
-                  <p className="text-lg font-bold">Tambah List Item</p>
+                  <p className="text-lg font-bold">
+                    Edit Atau Tambah List Item
+                  </p>
                   <button type="button" onClick={closeModal}>
                     <CloseIcon />
                   </button>
@@ -87,7 +133,7 @@ const PopupAdd = ({ isOpen, closeModal, id }: PopupAddProps) => {
                           required: "Required",
                         })}
                         placeholder="Tambahkan nama Activity"
-                        className="rounded-md my-1 text-sm appearance-none relative block 
+                        className="rounded-md my-1 text-base appearance-none relative block 
                         w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 
                         focus:outline-none focus:z-10 placeholder:text-base"
                       />
@@ -97,24 +143,27 @@ const PopupAdd = ({ isOpen, closeModal, id }: PopupAddProps) => {
                       <label className="uppercase text-xs mb-3 font-bold">
                         priority
                       </label>
-                      <ListItem
-                        setItemPriority={setItemPriority}
-                        itemPriority={itemPriority}
-                      />
+                      <ListItem itemPriority={priority} action={action} />
                     </fieldset>
 
                     <div className="mt-4 absolute bottom-7 right-7">
                       <button
-                        disabled={!isDisabled}
+                        disabled={isDisabled}
                         type="submit"
                         className={cx(
                           "rounded-full bg-blue px-8 py-3 text-lg font-medium text-white",
                           {
-                            "opacity-60": !isDisabled,
+                            "opacity-60": isDisabled,
                           },
                         )}
                       >
-                        {isLoading ? <Spinner /> : "Simpan"}
+                        {isLoading ? (
+                          <Spinner />
+                        ) : action === "create" ? (
+                          "Simpan"
+                        ) : (
+                          "Update"
+                        )}
                       </button>
                     </div>
                   </form>
@@ -128,4 +177,4 @@ const PopupAdd = ({ isOpen, closeModal, id }: PopupAddProps) => {
   );
 };
 
-export default PopupAdd;
+export default Popup;

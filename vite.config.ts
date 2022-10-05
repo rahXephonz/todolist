@@ -8,6 +8,9 @@ export default defineConfig((configEnv) => {
 
   return {
     plugins: [react(), EnvironmentPlugin(["API_KEY"])],
+    esbuild: {
+      logOverride: { "this-is-undefined-in-esm": "silent" },
+    },
     resolve: {
       alias: {
         components: resolve(__dirname, "src", "components"),

@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Priority } from "types/data";
 import cx from "classnames";
 import getColor from "utils/getColor";
+import useProvideAction from "hooks/useProvideAction";
 
 const optionList: Array<Priority> = [
   "very-high",
@@ -13,18 +14,22 @@ const optionList: Array<Priority> = [
 
 type ListItemProps = {
   itemPriority: Priority;
-  setItemPriority: Dispatch<SetStateAction<Priority>>;
+  action: "create" | "update";
 };
 
-const ListItem = ({ itemPriority, setItemPriority }: ListItemProps) => {
+const ListItem = ({ itemPriority, action }: ListItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setState } = useProvideAction();
 
   const onSetPriority = useCallback(
     (item: Priority) => {
-      setItemPriority(item);
       setIsOpen(false);
+
+      if (action === "create")
+        setState({ priority: item, typeAction: "create" });
+      else setState({ priority: item, typeAction: "update" });
     },
-    [setItemPriority],
+    [action, setState],
   );
 
   return (
@@ -44,7 +49,7 @@ const ListItem = ({ itemPriority, setItemPriority }: ListItemProps) => {
               getColor(itemPriority),
             )}
           >
-            {itemPriority.replace("-", " ")}
+            {itemPriority?.replace("-", " ")}
           </div>
         </div>
 

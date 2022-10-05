@@ -1,37 +1,80 @@
-import useDisclosure from "hooks/useDisclosure";
-import PopupAdd from "./components/PopupAdd";
+import Popup from "./components/Popup";
 import Helmet from "components/Helmet";
 import BackIcon from "components/icon/BackIcon";
 import EditIcon from "components/icon/EditIcon";
 import SortIcon from "components/icon/SortIcon";
+import Spinner from "components/icon/Spinner";
 import TablePlus from "components/icon/TablePlus";
-import TrashIcon from "components/icon/TrashIcon";
-import cx from "classnames";
-import getColor from "utils/getColor";
+import ListTodos from "./components/ListTodos";
 
 import { useRouter } from "hooks/useRouter";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
-import { Priority } from "types/data";
+import { useForm } from "react-hook-form";
+import { useUpdateActivities } from "hooks/useMutation";
+import useDisclosure from "hooks/useDisclosure";
+import useProvideAction from "hooks/useProvideAction";
+import useOnClickOutside from "use-onclickoutside";
 
 export const Detail = () => {
+  const [modeEdit, setModeEdit] = useState(false);
+
   const { query, push } = useRouter();
-  const { isOpen, onClose, onOpen } = useDisclosure();
   const { id } = query;
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { setState } = useProvideAction();
+  const ref = useRef();
   const idQuery = parseInt(id as string);
 
   const {
     data: listTodos,
     isLoading: listLoading,
     isError: listError,
+    refetch,
   } = useFetchAllTodos(idQuery);
 
   const { data: detailActivity } = useFetchDetailActivities(idQuery);
+  const { mutate: updateActivity } = useUpdateActivities();
+  const { register, watch, reset } = useForm<{ title: string }>({
+    defaultValues: {},
+  });
+
+  const watchValue = watch("title");
+  const { title, id: activityId } = detailActivity || {};
 
   useEffect(() => {
     if (!id) push("/");
   }, [id, push]);
+
+  useEffect(() => {
+    if (title) {
+      reset({ title });
+    }
+  }, [reset, title]);
+
+  const onClickOutside = () => {
+    setModeEdit(false);
+
+    if (watchValue === title) return;
+    else updateActivity({ id: activityId, json: { title: watchValue } });
+  };
+
+  useOnClickOutside(ref, onClickOutside);
+
+  const onAddTodos = () => {
+    setState({ typeAction: "create", priority: "normal" });
+    onOpen();
+  };
+
+  const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setModeEdit(false);
+
+      if (watchValue === title) return;
+      else updateActivity({ id: activityId, json: { title: watchValue } });
+    }
+  };
 
   return (
     <>
@@ -40,11 +83,29 @@ export const Detail = () => {
         title="To Do Detail - Dashboard"
       />
       <div className="header flex justify-between items-center my-10">
-        <div className="header-container flex space-x-6 items-center">
+        <div
+          className="header-container flex space-x-6 items-center"
+          onClick={() => setModeEdit(true)}
+          ref={ref}
+        >
           <button type="button" onClick={() => push("/")}>
             <BackIcon />
           </button>
-          <h1 className="text-4xl font-bold">{detailActivity?.data?.title}</h1>
+
+          {modeEdit ? (
+            <input
+              autoFocus
+              {...register("title")}
+              placeholder="Custom title in here"
+              type="text"
+              onKeyDown={onHandleKeyPress}
+              className="py-1 md:py-2 text-xl font-bold md:text-3xl bg-transparent border-b 
+              outline-none text-neutral-700 border-neutral-700"
+            />
+          ) : (
+            <h1 className="text-4xl font-bold">{title}</h1>
+          )}
+
           <button type="button">
             <EditIcon />
           </button>
@@ -66,7 +127,7 @@ export const Detail = () => {
             type="button"
             className="bg-blue py-3 px-6 font-bold text-white 
             flex items-center space-x-2 rounded-full"
-            onClick={() => onOpen()}
+            onClick={onAddTodos}
           >
             <TablePlus />
             <p className="text-lg">Tambah</p>
@@ -79,57 +140,31 @@ export const Detail = () => {
             Oops! Something went wrong
           </div>
         )}
+
         {listLoading && (
           <div className="flex justify-center w-full mt-20">
-            Fetching data...
+            <Spinner />
           </div>
         )}
 
-        {listTodos?.data?.length > 0
-          ? listTodos?.data.map(({ id, priority, title }) => (
-              <div
-                className="content-item flex mb-3 shadow-normal p-7 rounded-xl justify-between bg-white"
-                key={id}
-              >
-                <div className="flex items-center space-x-5">
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                  </div>
-                  <div className="before:content-['\A'] capitalize">
-                    <div
-                      className={cx(
-                        "before:w-3 before:h-3 before:rounded-full before:mr-3 before:inline-block",
-                        getColor(priority as Priority),
-                      )}
-                    >
-                      {title}
-                    </div>
-                  </div>
-
-                  <div className="scale-75 mt-1">
-                    <button type="button">
-                      <EditIcon />
-                    </button>
-                  </div>
-                </div>
-                <TrashIcon
-                  onClick={() => console.log("yey")}
-                  dataTesting="xxx"
-                />
-              </div>
+        {listTodos?.data?.length
+          ? listTodos?.data.map((item) => (
+              <ListTodos todos={item} key={item.id} refetch={refetch} />
             ))
           : !listLoading && (
-              <div className="flex justify-center w-full mt-20">
-                <TodoEmptyState />
+              <div
+                className="flex justify-center w-full mt-10"
+                data-cy="todo-empty-state"
+              >
+                <TodoEmptyState onClick={() => onOpen()} />
               </div>
             )}
       </div>
-      <PopupAdd closeModal={onClose} isOpen={isOpen} id={id as string} />
+
+      {/* Create Todos */}
+      {isOpen && (
+        <Popup closeModal={onClose} isOpen={true} activityId={id as string} />
+      )}
     </>
   );
 };
