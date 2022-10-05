@@ -96,7 +96,11 @@ export const Detail = () => {
           onClick={() => setModeEdit(true)}
           ref={ref}
         >
-          <button type="button" onClick={() => push("/")}>
+          <button
+            type="button"
+            onClick={() => push("/")}
+            data-cy="todo-back-button"
+          >
             <BackIcon />
           </button>
 
@@ -111,10 +115,12 @@ export const Detail = () => {
               outline-none text-neutral-700 border-neutral-700"
             />
           ) : (
-            <h1 className="text-4xl font-bold">{title}</h1>
+            <h1 className="text-4xl font-bold" data-cy="todo-title">
+              {title}
+            </h1>
           )}
 
-          <button type="button">
+          <button type="button" data-cy="todo-title-edit-button">
             <EditIcon />
           </button>
         </div>
@@ -127,6 +133,7 @@ export const Detail = () => {
             className="bg-blue py-3 px-6 font-bold text-white 
             flex items-center space-x-2 rounded-full"
             onClick={onAddTodos}
+            data-cy="todo-add-button"
           >
             <TablePlus />
             <p className="text-lg">Tambah</p>

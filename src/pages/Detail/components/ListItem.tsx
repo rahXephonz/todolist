@@ -40,8 +40,7 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
   return (
     <>
       <button
-        id="dropdownDefault"
-        data-dropdown-toggle="dropdown"
+        data-cy="modal-add-priority-item"
         className="w-44 h-12 border border-gray-300 focus:outline-none font-medium relative 
         rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center "
         type="button"
@@ -59,6 +58,7 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
         </div>
 
         <svg
+          data-cy="modal-add-priority-dropdown"
           className="w-4 h-4 absolute right-4"
           aria-hidden="true"
           fill="none"

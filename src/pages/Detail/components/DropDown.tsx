@@ -45,6 +45,7 @@ const Dropdown = () => {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button
+            data-cy="todo-sort-button"
             className="justify-center rounded-full px-4 py-2 mt-2 bg-transparent h-14 w-14 border 
             border-solid border-gray-300"
           >

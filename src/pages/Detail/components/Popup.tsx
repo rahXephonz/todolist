@@ -87,7 +87,12 @@ const Popup = ({
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={closeModal}
+        data-cy="modal-add"
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -116,10 +121,14 @@ const Popup = ({
               bg-white p-7 align-middle shadow-xl transition-all w-5/12"
               >
                 <div className="flex justify-between items-center">
-                  <p className="text-lg font-bold">
+                  <p className="text-lg font-bold" data-cy="modal-add-title">
                     {action === "create" ? "Tambah" : "Ubah"} List Item
                   </p>
-                  <button type="button" onClick={closeModal}>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    data-cy="modal-add-close-button"
+                  >
                     <CloseIcon />
                   </button>
                 </div>
@@ -127,23 +136,31 @@ const Popup = ({
                 <div className="h-96">
                   <form className="my-10" onSubmit={handleSubmit(onSubmit)}>
                     <fieldset className="flex flex-col mb-5">
-                      <label className="uppercase text-xs mb-3 font-bold">
+                      <label
+                        className="uppercase text-xs mb-3 font-bold"
+                        data-cy="modal-add-name-title"
+                      >
                         nama list item
                       </label>
-                      <input
-                        name="title"
-                        {...register("title", {
-                          required: "Required",
-                        })}
-                        placeholder="Tambahkan nama Activity"
-                        className="rounded-md my-1 text-base appearance-none relative block 
+                      <div data-cy="modal-add-name-input">
+                        <input
+                          name="title"
+                          {...register("title", {
+                            required: "Required",
+                          })}
+                          placeholder="Tambahkan nama Activity"
+                          className="rounded-md my-1 text-base appearance-none relative block 
                         w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 
                         focus:outline-none focus:z-10 placeholder:text-base"
-                      />
+                        />
+                      </div>
                     </fieldset>
 
                     <fieldset className="flex flex-col">
-                      <label className="uppercase text-xs mb-3 font-bold">
+                      <label
+                        className="uppercase text-xs mb-3 font-bold"
+                        data-cy="modal-add-priority-title"
+                      >
                         priority
                       </label>
                       <ListItem itemPriority={priority} action={action} />

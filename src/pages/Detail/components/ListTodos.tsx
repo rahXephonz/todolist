@@ -62,10 +62,14 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   };
 
   return (
-    <div className="content-item flex mb-3 shadow-normal p-7 rounded-xl justify-between bg-white">
+    <div
+      className="content-item flex mb-3 shadow-normal p-7 rounded-xl justify-between bg-white"
+      data-cy="todo-item"
+    >
       <div className="flex items-center space-x-5">
         <div>
           <input
+            data-cy="todo-item-checkbox"
             type="checkbox"
             onChange={onChange}
             checked={isChecked}
@@ -74,12 +78,14 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
         </div>
         <div className="before:content-['\A'] capitalize">
           <div
+            data-cy="todo-item-priority-indicator"
             className={cx(
               "before:w-3 before:h-3 before:rounded-full before:mr-3 before:inline-block",
               getColor(priority as Priority),
             )}
           >
             <span
+              data-cy="todo-item-title"
               className={cx("text-base", {
                 "line-through": !toBool(isActive),
               })}
@@ -90,12 +96,19 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
         </div>
 
         <div className="scale-75 mt-1">
-          <button type="button" onClick={onUpdateTodos}>
+          <button
+            type="button"
+            onClick={onUpdateTodos}
+            data-cy="todo-item-edit-button"
+          >
             <EditIcon />
           </button>
         </div>
       </div>
-      <TrashIcon onClick={() => onOpen()} dataTesting="xxx" />
+      <TrashIcon
+        onClick={() => onOpen()}
+        dataTesting="todo-item-delete-button"
+      />
 
       {/* Edit Todos */}
       <Popup
