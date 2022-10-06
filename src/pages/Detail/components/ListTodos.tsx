@@ -55,7 +55,12 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
       priority,
     };
 
-    updateTodos({ id, json: lib.transformObjectKeysToSnakeCase(data) });
+    updateTodos(
+      { id, json: lib.transformObjectKeysToSnakeCase(data) },
+      {
+        onSuccess: () => refetch(),
+      },
+    );
   };
 
   const onDelete = () => {
