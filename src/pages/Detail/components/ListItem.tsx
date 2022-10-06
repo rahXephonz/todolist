@@ -46,7 +46,10 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
         type="button"
         onClick={() => setIsOpen((prevVal) => !prevVal)}
       >
-        <div className="before:content-['\A'] capitalize">
+        <div
+          className="before:content-['\A'] capitalize"
+          data-cy="todo-item-priority-indicator"
+        >
           <div
             className={cx(
               "before:w-3 before:h-3 before:rounded-full before:mr-3 before:inline-block",
