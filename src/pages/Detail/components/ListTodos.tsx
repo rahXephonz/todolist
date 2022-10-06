@@ -1,6 +1,6 @@
 import { Priority, Todos } from "types/data";
 import { useDeleteTodos, useUpdateTodos } from "hooks/useMutation";
-import { useState, memo } from "react";
+import { useState, memo, useEffect, useCallback } from "react";
 import Modal, { ChildModal } from "components/Modal";
 import TrashIcon from "components/icon/TrashIcon";
 import cx from "classnames";
@@ -11,6 +11,7 @@ import lib from "libs/transforms";
 import Popup from "./Popup";
 import useDisclosure from "hooks/useDisclosure";
 import useProvideAction from "hooks/useProvideAction";
+import useProvideTodos from "hooks/useProvideTodos";
 
 type ListTodosProps = {
   refetch: () => void;
@@ -19,7 +20,11 @@ type ListTodosProps = {
 
 const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const { mutate: updateTodos } = useUpdateTodos();
-  const { mutate: deleteTodos } = useDeleteTodos();
+  const { mutate: deleteTodos, isSuccess } = useDeleteTodos();
+  const {
+    setState: setTodos,
+    state: { todosItem },
+  } = useProvideTodos();
 
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { setState } = useProvideAction();
@@ -30,6 +35,20 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(!toBool(isActive));
   const [isOpenPopupEdit, setIsOpenPopupEdit] = useState<boolean>(false);
   const [childModalOpen, setChildModalOpen] = useState<boolean>(false);
+
+  const removeObjectWithId = useCallback(
+    (arr: Todos[], id: number) => {
+      const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
+      arr.splice(objWithIdIndex, 1);
+
+      setTodos({ todosItem: arr });
+    },
+    [setTodos],
+  );
+
+  useEffect(() => {
+    if (isSuccess) removeObjectWithId(todosItem, id);
+  }, [id, isSuccess, removeObjectWithId, todosItem]);
 
   const onChange = () => {
     setIsChecked((v) => !v);
@@ -51,7 +70,6 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
 
   const onCloseChildModal = () => {
     setChildModalOpen(false);
-    refetch();
   };
 
   const onUpdateTodos = () => {
@@ -87,7 +105,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
             <span
               data-cy="todo-item-title"
               className={cx("text-base", {
-                "line-through": !toBool(isActive),
+                "line-through": isChecked,
               })}
             >
               {title}
@@ -112,6 +130,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
 
       {/* Edit Todos */}
       <Popup
+        refetch={refetch}
         closeModal={() => setIsOpenPopupEdit(false)}
         isOpen={isOpenPopupEdit}
         todoId={id}

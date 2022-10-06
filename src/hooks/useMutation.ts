@@ -37,14 +37,8 @@ export const useCreateTodos = () => {
 };
 
 export const useUpdateTodos = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    ({ json, id }: { json: Todos; id: number }) =>
-      todosService.updateTodos(id, { ...json }),
-    {
-      onSuccess: () => queryClient.invalidateQueries("listTodos"),
-    },
+  return useMutation(({ json, id }: { json: Todos; id: number }) =>
+    todosService.updateTodos(id, { ...json }),
   );
 };
 

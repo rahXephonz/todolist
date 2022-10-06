@@ -12,6 +12,7 @@ import Spinner from "components/icon/Spinner";
 type PopupProps = {
   isOpen: boolean;
   closeModal: () => void;
+  refetch: () => void;
   activityId?: string;
   todoId?: number;
   titleTodo?: string;
@@ -22,6 +23,7 @@ const Popup = ({
   closeModal,
   activityId,
   todoId,
+  refetch,
   titleTodo,
 }: PopupProps) => {
   const { handleSubmit, register, watch, reset } = useForm<{
@@ -62,10 +64,15 @@ const Popup = ({
 
         createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
       } else {
-        updateTodos({ id: todoId, json: { priority, title } });
+        updateTodos(
+          { id: todoId, json: { priority, title } },
+          {
+            onSuccess: () => refetch(),
+          },
+        );
       }
     },
-    [action, activityId, priority, createTodos, updateTodos, todoId],
+    [action, activityId, priority, createTodos, updateTodos, todoId, refetch],
   );
 
   useEffect(() => {
@@ -163,6 +170,7 @@ const Popup = ({
                       <button
                         disabled={action === "create" && isDisabled}
                         type="submit"
+                        data-cy="modal-add-save-button"
                         className={cx(
                           "rounded-full bg-blue px-8 py-3 text-lg font-medium text-white",
                           {

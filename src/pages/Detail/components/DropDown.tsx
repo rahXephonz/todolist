@@ -103,22 +103,23 @@ const Dropdown = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
+            data-cy="sort-parent"
             className="absolute mt-2 w-56 origin-top-right divide-y
            divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
             {items.map((item) => (
               <div className="px-1 py-1" key={item.id} data-cy="sort-selection">
-                <Menu.Item data-cy="sort-selection-selected">
+                <Menu.Item>
                   {({ active }) => (
                     <div>
                       <button
                         type="button"
                         className={`${
                           active && "bg-gray-200 text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-3`}
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm space-x-5`}
                         onClick={item.function}
                       >
-                        {item.icon}
+                        <span className="scale-125">{item.icon}</span>
                         <span data-cy="sort-selection-title">{item.title}</span>
                       </button>
                     </div>
