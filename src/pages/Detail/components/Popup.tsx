@@ -12,7 +12,7 @@ import Spinner from "components/icon/Spinner";
 type PopupProps = {
   isOpen: boolean;
   closeModal: () => void;
-  refetch: () => void;
+  refetch?: () => void;
   activityId?: string;
   todoId?: number;
   titleTodo?: string;

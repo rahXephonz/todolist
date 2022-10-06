@@ -94,7 +94,10 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
             className="h-4 w-4 mt-[6px] transition duration-200 cursor-pointer"
           />
         </div>
-        <div className="before:content-['\A'] capitalize">
+        <div
+          className="before:content-['\A'] capitalize"
+          data-cy="todo-item-priority-indicator"
+        >
           <div
             data-cy="todo-item-priority-indicator"
             className={cx(
