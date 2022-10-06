@@ -43,11 +43,10 @@ const Dropdown = () => {
   };
 
   const sortedIncomplete = () => {
-    const sorted = state.todosItem.sort((a, b) => {
-      const { isActive: activityA } = lib.transformObjectKeysToCamelCase(a);
-      const { isActive: activityB } = lib.transformObjectKeysToCamelCase(b);
+    const todos = lib.transformObjectKeysToCamelCase(state.todosItem);
 
-      return activityB - activityA;
+    const sorted = todos.sort((a, b) => {
+      return b.isActive - a.isActive;
     });
 
     setState({ todosItem: sorted });
