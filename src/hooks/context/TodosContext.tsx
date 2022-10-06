@@ -12,7 +12,7 @@ interface ITodoState {
 
 const TodoStateContext = createContext({
   state: {} as Partial<ITodoState>,
-  setState: {} as Dispatch<SetStateAction<Partial<ITodoState>>>,
+  setState: {} as Dispatch<SetStateAction<ITodoState>>,
 });
 
 const TodoStateProvider = ({
@@ -22,7 +22,7 @@ const TodoStateProvider = ({
   } as ITodoState,
 }: {
   children: React.ReactNode;
-  value?: Partial<ITodoState>;
+  value?: ITodoState;
 }) => {
   const [state, setState] = useState(value);
 

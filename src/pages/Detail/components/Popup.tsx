@@ -62,15 +62,7 @@ const Popup = ({
 
         createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
       } else {
-        const data = {
-          priority: priority,
-          title,
-        };
-
-        updateTodos({
-          id: todoId,
-          json: lib.transformObjectKeysToSnakeCase(data),
-        });
+        updateTodos({ id: todoId, json: { priority, title } });
       }
     },
     [action, activityId, priority, createTodos, updateTodos, todoId],
