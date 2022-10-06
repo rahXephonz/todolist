@@ -1,6 +1,6 @@
 import { Priority, Todos } from "types/data";
 import { useDeleteTodos, useUpdateTodos } from "hooks/useMutation";
-import { useState, memo, useEffect, useCallback } from "react";
+import { useState, memo, useCallback } from "react";
 import Modal, { ChildModal } from "components/Modal";
 import TrashIcon from "components/icon/TrashIcon";
 import cx from "classnames";
@@ -20,7 +20,7 @@ type ListTodosProps = {
 
 const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const { mutate: updateTodos } = useUpdateTodos();
-  const { mutate: deleteTodos, isSuccess } = useDeleteTodos();
+  const { mutate: deleteTodos } = useDeleteTodos();
   const {
     setState: setTodos,
     state: { todosItem },
@@ -46,10 +46,6 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
     [setTodos],
   );
 
-  useEffect(() => {
-    if (isSuccess) removeObjectWithId(todosItem, id);
-  }, [id, isSuccess, removeObjectWithId, todosItem]);
-
   const onChange = () => {
     setIsChecked((v) => !v);
 
@@ -70,6 +66,8 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
 
   const onCloseChildModal = () => {
     setChildModalOpen(false);
+
+    removeObjectWithId(todosItem, id);
   };
 
   const onUpdateTodos = () => {
@@ -150,7 +148,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
 
       {childModalOpen && (
         <ChildModal
-          description="Activity berhasil dihapus"
+          description="Todo berhasil dihapus"
           isOpen={true}
           closeModal={onCloseChildModal}
         />

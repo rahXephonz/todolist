@@ -9,6 +9,7 @@ import {
   SelectionTwo,
   ZA,
 } from "components/icon/CommonIcon";
+import lib from "libs/transforms";
 
 const Dropdown = () => {
   const { state, setState } = useProvideTodos();
@@ -42,7 +43,12 @@ const Dropdown = () => {
   };
 
   const sortedIncomplete = () => {
-    const sorted = state.todosItem.sort((a, b) => b.is_active - a.is_active);
+    const sorted = state.todosItem.sort((a, b) => {
+      const { isActive: activityA } = lib.transformObjectKeysToCamelCase(a);
+      const { isActive: activityB } = lib.transformObjectKeysToCamelCase(b);
+
+      return activityB - activityA;
+    });
 
     setState({ todosItem: sorted });
   };
@@ -50,15 +56,15 @@ const Dropdown = () => {
   const items = [
     {
       id: 0,
-      icon: <SelectionOne />,
-      title: "Terlama",
-      function: sortedOlder,
-    },
-    {
-      id: 1,
       icon: <SelectionTwo />,
       title: "Terbaru",
       function: sortedNewer,
+    },
+    {
+      id: 1,
+      icon: <SelectionOne />,
+      title: "Terlama",
+      function: sortedOlder,
     },
     {
       id: 2,
