@@ -10,8 +10,7 @@ import parseTypeData from "utils/parse";
 import lib from "libs/transforms";
 import Popup from "./Popup";
 import useDisclosure from "hooks/useDisclosure";
-import useProvideAction from "hooks/useProvideAction";
-import useProvideTodos from "hooks/useProvideTodos";
+import { useProvideAction, useProvideTodos } from "hooks/useProvide";
 
 type ListTodosProps = {
   refetch: () => void;

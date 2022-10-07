@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import SortIcon from "components/icon/SortIcon";
-import useProvideTodos from "hooks/useProvideTodos";
+import useSorter from "hooks/useSorter";
 import {
   AZ,
   SelectionOne,
@@ -9,48 +9,10 @@ import {
   SelectionTwo,
   ZA,
 } from "components/icon/CommonIcon";
-import lib from "libs/transforms";
 
 const Dropdown = () => {
-  const { state, setState } = useProvideTodos();
-
-  const sortedOlder = () => {
-    const sorted = state.todosItem.sort((a, b) => a.id - b.id);
-
-    setState({ todosItem: sorted });
-  };
-
-  const sortedNewer = () => {
-    const sorted = state.todosItem.sort((a, b) => b.id - a.id);
-
-    setState({ todosItem: sorted });
-  };
-
-  const sortedAZ = () => {
-    const sorted = state.todosItem.sort((a, b) =>
-      a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1,
-    );
-
-    setState({ todosItem: sorted });
-  };
-
-  const sortedZA = () => {
-    const sorted = state.todosItem.sort((a, b) =>
-      a.title.toUpperCase() < b.title.toUpperCase() ? 1 : -1,
-    );
-
-    setState({ todosItem: sorted });
-  };
-
-  const sortedIncomplete = () => {
-    const todos = lib.transformObjectKeysToCamelCase(state.todosItem);
-
-    const sorted = todos.sort((a, b) => {
-      return b.isActive - a.isActive;
-    });
-
-    setState({ todosItem: sorted });
-  };
+  const { sortedOlder, sortedAZ, sortedIncomplete, sortedNewer, sortedZA } =
+    useSorter();
 
   const items = [
     {

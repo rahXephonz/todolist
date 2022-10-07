@@ -1,8 +1,8 @@
 import { useCallback, useRef, useState } from "react";
+import { useProvideAction } from "hooks/useProvide";
 import { Priority } from "types/data";
 import cx from "classnames";
 import getColor from "utils/getColor";
-import useProvideAction from "hooks/useProvideAction";
 import useOnClickOutside from "use-onclickoutside";
 
 const optionList: Array<Priority> = [

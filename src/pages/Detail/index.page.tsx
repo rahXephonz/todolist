@@ -14,8 +14,7 @@ import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
 import { useUpdateActivities } from "hooks/useMutation";
 import useDisclosure from "hooks/useDisclosure";
-import useProvideAction from "hooks/useProvideAction";
-import useProvideTodos from "hooks/useProvideTodos";
+import {useProvideTodos, useProvideAction} from "hooks/useProvide";
 import useOnClickOutside from "use-onclickoutside";
 import Dropdown from "./components/DropDown";
 
