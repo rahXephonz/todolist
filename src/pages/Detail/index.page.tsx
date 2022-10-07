@@ -6,6 +6,7 @@ import EditIcon from "components/icon/EditIcon";
 import Spinner from "components/icon/Spinner";
 import TablePlus from "components/icon/TablePlus";
 import ListTodos from "./components/ListTodos";
+import Dropdown from "./components/DropDown";
 
 import { useRouter } from "hooks/useRouter";
 import { useEffect, useRef, useState } from "react";
@@ -13,10 +14,9 @@ import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
 import { useUpdateActivities } from "hooks/useMutation";
+import { useProvideTodos, useProvideAction } from "hooks/useProvide";
 import useDisclosure from "hooks/useDisclosure";
-import {useProvideTodos, useProvideAction} from "hooks/useProvide";
 import useOnClickOutside from "use-onclickoutside";
-import Dropdown from "./components/DropDown";
 
 export const Detail = () => {
   const [modeEdit, setModeEdit] = useState(false);

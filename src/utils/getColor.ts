@@ -1,6 +1,6 @@
 import { Priority } from "types/data";
 
-export default function getColor(itemPriority: Priority) {
+export default function getColor(itemPriority: Priority): Record<string, any> {
   return {
     "before:bg-[#f8a541]": itemPriority === "high",
     "before:bg-[#ed4c5c]": itemPriority === "very-high",
