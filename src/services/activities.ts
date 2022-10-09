@@ -11,7 +11,7 @@ const getDetailActivitiesData = async (id: number) => {
 // only get my Activities data with filter
 const getAllActivitiesData = async () => {
   const response = await apiClient.get<{ data: Activities[] }>(
-    "/activity-groups?email=mrizkyy027@gmail.com",
+    "/activity-groups?email=mynev.id@gmail.com",
   );
 
   return lib.transformObjectKeysToCamelCase(response.data);

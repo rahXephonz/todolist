@@ -20,7 +20,7 @@ export const List = () => {
     useCreateActivities();
 
   const onCreate = () =>
-    createActivity({ email: "mrizkyy027@gmail.com", title: "New Activity" });
+    createActivity({ email: "mynev.id@gmail.com", title: "New Activity" });
 
   return (
     <>
