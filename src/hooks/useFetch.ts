@@ -1,27 +1,37 @@
+import { omit } from "lodash";
 import { useQuery } from "react-query";
-import todosService from "services/todos";
-import activitiesService from "services/activities";
+// import todosService from "services/todos";
+import { activity } from "services/activities";
+import lib from "libs/transforms";
 
-const useFetchAllTodos = (id: number) => {
-  return useQuery(["listTodos"], () => todosService.getAllTodosData(id), {
-    keepPreviousData: true,
-  });
-};
+// const useFetchAllTodos = (id: number) => {
+//   return useQuery(["listTodos"], () => todosService.getAllTodosData(id), {
+//     keepPreviousData: true,
+//   });
+// };
 
-const useFetchDetailActivities = (id: number) => {
-  return useQuery(["listDetailActivity"], () =>
-    activitiesService.getDetailActivitiesData(id),
-  );
-};
+// const useFetchDetailActivities = (id: number) => {
+//   return useQuery(["listDetailActivity"], () =>
+//     activitiesService.getDetailActivitiesData(id),
+//   );
+// };
 
 const useFetchAllActivities = () => {
-  return useQuery(
+  const result = useQuery(
     ["listActivities"],
-    () => activitiesService.getAllActivitiesData(),
+    () => activity.getAllActivities(),
     {
       keepPreviousData: true,
     },
   );
+
+  const options = omit(result, "data");
+  const data = lib.transformObjectKeysToCamelCase(result.data);
+
+  return {
+    data,
+    ...options,
+  };
 };
 
-export { useFetchAllTodos, useFetchAllActivities, useFetchDetailActivities };
+export { useFetchAllActivities };

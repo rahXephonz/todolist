@@ -19,8 +19,12 @@ export const List = () => {
   const { mutate: createActivity, isLoading: createLoading } =
     useCreateActivities();
 
-  const onCreate = () =>
-    createActivity({ email: "mrizkyy027@gmail.com", title: "New Activity" });
+  const onCreate = () => {
+    createActivity({
+      email: "mrizkyy027@gmail.com",
+      title: "New Activity",
+    });
+  };
 
   return (
     <>
@@ -46,7 +50,7 @@ export const List = () => {
         </button>
       </div>
 
-      <div
+      {/* <div
         className={cx("dashboard-content", {
           "grid grid-cols-4 gap-y-3 gap-x-5": listActivity?.data.length > 0,
         })}
@@ -61,7 +65,7 @@ export const List = () => {
             <Spinner />
           </div>
         )}
-        {listActivity?.data.length
+        {listActivity?.data?.length
           ? listActivity?.data.map((item) => (
               <ListActivity key={item.id} {...item} refetch={refetch} />
             ))
@@ -73,7 +77,7 @@ export const List = () => {
                 <ActivityEmptyState onClick={onCreate} />
               </div>
             )}
-      </div>
+      </div> */}
     </>
   );
 };

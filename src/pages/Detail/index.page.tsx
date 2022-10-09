@@ -10,10 +10,10 @@ import Dropdown from "./components/DropDown";
 
 import { useRouter } from "hooks/useRouter";
 import { useEffect, useRef, useState } from "react";
-import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
+// import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
-import { useUpdateActivities } from "hooks/useMutation";
+// import { useUpdateActivities } from "hooks/useMutation";
 import { useProvideTodos, useProvideAction } from "hooks/useProvide";
 import useDisclosure from "hooks/useDisclosure";
 import useOnClickOutside from "use-onclickoutside";
@@ -32,56 +32,56 @@ export const Detail = () => {
   const ref = useRef();
   const idQuery = parseInt(id as string);
 
-  const {
-    data: listTodos,
-    isLoading: listLoading,
-    isError: listError,
-    refetch,
-  } = useFetchAllTodos(idQuery);
+  // const {
+  //   data: listTodos,
+  //   isLoading: listLoading,
+  //   isError: listError,
+  //   refetch,
+  // } = useFetchAllTodos(idQuery);
 
-  const { data: detailActivity } = useFetchDetailActivities(idQuery);
-  const { mutate: updateActivity } = useUpdateActivities();
-  const { register, watch, reset } = useForm<{ title: string }>({
-    defaultValues: {},
-  });
+  // const { data: detailActivity } = useFetchDetailActivities(idQuery);
+  // const { mutate: updateActivity } = useUpdateActivities();
+  // const { register, watch, reset } = useForm<{ title: string }>({
+  //   defaultValues: {},
+  // });
 
-  const watchValue = watch("title");
-  const { title, id: activityId } = detailActivity || {};
+  // const watchValue = watch("title");
+  // const { title, id: activityId } = detailActivity || {};
 
-  useEffect(() => {
-    if (!id) push("/");
-  }, [id, push]);
+  // useEffect(() => {
+  //   if (!id) push("/");
+  // }, [id, push]);
 
-  useEffect(() => {
-    if (title) reset({ title });
-  }, [reset, title]);
+  // useEffect(() => {
+  //   if (title) reset({ title });
+  // }, [reset, title]);
 
-  useEffect(() => {
-    if (listTodos) setTodos({ todosItem: listTodos.data });
-  }, [listTodos, setTodos]);
+  // useEffect(() => {
+  //   if (listTodos) setTodos({ todosItem: listTodos.data });
+  // }, [listTodos, setTodos]);
 
-  const onClickOutside = () => {
-    setModeEdit(false);
+  // const onClickOutside = () => {
+  //   setModeEdit(false);
 
-    if (watchValue === title) return;
-    else updateActivity({ id: activityId, json: { title: watchValue } });
-  };
+  //   if (watchValue === title) return;
+  //   else updateActivity({ id: activityId, json: { title: watchValue } });
+  // };
 
-  useOnClickOutside(ref, onClickOutside);
+  // useOnClickOutside(ref, onClickOutside);
 
-  const onAddTodos = () => {
-    setState({ typeAction: "create", priority: "normal" });
-    onOpen();
-  };
+  // const onAddTodos = () => {
+  //   setState({ typeAction: "create", priority: "normal" });
+  //   onOpen();
+  // };
 
-  const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      setModeEdit(false);
+  // const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     setModeEdit(false);
 
-      if (watchValue === title) return;
-      else updateActivity({ id: activityId, json: { title: watchValue } });
-    }
-  };
+  //     if (watchValue === title) return;
+  //     else updateActivity({ id: activityId, json: { title: watchValue } });
+  //   }
+  // };
 
   return (
     <>
@@ -89,7 +89,7 @@ export const Detail = () => {
         description="Todo detail dashboard"
         title="To Do Detail - Dashboard"
       />
-      <div className="header flex justify-between items-center my-10">
+      {/* <div className="header flex justify-between items-center my-10">
         <div
           className="header-container flex space-x-6 items-center"
           onClick={() => setModeEdit(true)}
@@ -164,12 +164,12 @@ export const Detail = () => {
                 <TodoEmptyState onClick={onAddTodos} />
               </div>
             )}
-      </div>
+      </div> */}
 
       {/* Create Todos */}
-      {isOpen && (
+      {/* {isOpen && (
         <Popup closeModal={onClose} isOpen={true} activityId={id as string} />
-      )}
+      )} */}
     </>
   );
 };
