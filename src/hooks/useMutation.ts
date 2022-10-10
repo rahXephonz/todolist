@@ -17,7 +17,7 @@ export const useUpdateActivities = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ json, id }: { json: Todos; id: number }) =>
+    ({ json, id }: { json: Activities; id: number }) =>
       activitiesService.updateActivities(id, { ...json }),
     {
       onSuccess: () => queryClient.invalidateQueries("listDetailActivity"),
