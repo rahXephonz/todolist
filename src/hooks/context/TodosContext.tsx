@@ -11,7 +11,7 @@ interface ITodoState {
 }
 
 const TodoStateContext = createContext({
-  state: {} as Partial<ITodoState>,
+  state: {} as ITodoState,
   setState: {} as Dispatch<SetStateAction<ITodoState>>,
 });
 
