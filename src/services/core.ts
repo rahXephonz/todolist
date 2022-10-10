@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { encode } from "qss";
 import _fetch from "unfetch";
 
@@ -19,15 +18,19 @@ interface FetchOptions {
   isPrivate?: boolean;
   local?: boolean;
   manualUrl?: boolean;
-  version?: number;
 }
 
-interface Error {
+interface Errors {
   status?: number;
+  name?: string;
+  json?: any;
+  response?: {
+    [k: string]: any;
+  };
 }
 
 export class CoreService {
-  intercept500Error = async (err: Error) => {
+  intercept500Error = async (err: Errors) => {
     if (err?.status === 500) {
       const customErr = {
         ...err,
@@ -41,15 +44,11 @@ export class CoreService {
     path = "/",
     method: keyof typeof MethodKey = "GET",
     {
-      mode,
       body,
       json,
       params,
       headers,
-      isPrivate = true,
-      local = false,
       manualUrl = false,
-      version = 1,
       ...opts
     }: FetchOptions = {},
   ): Promise<T> => {
@@ -92,24 +91,29 @@ export class CoreService {
       }
 
       return await Promise.resolve(responseBody);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log("err", err);
-      // deal with network error / CORS error
-      if (err.name === "TypeError" && err.message === "Failed to fetch") {
-        console.error("failed to get proper response from api server", err);
-      }
 
-      this.intercept500Error(err);
+      const msg = err as Errors;
+
+      if (err instanceof Error) {
+        // deal with network error / CORS error
+        if (err.name === "TypeError" && err.message === "Failed to fetch") {
+          console.error("failed to get proper response from api server", err);
+        }
+
+        this.intercept500Error(err);
+      }
 
       // get response
-      if (typeof err.json === "function") {
-        const data = await err.json();
-        err.response = { data };
+      if (typeof msg.json === "function") {
+        const data = await msg.json();
+        msg.response = { data };
       }
 
-      if (typeof err?.response?.json === "function") {
-        const data = await err.response.json();
-        err.response = { data };
+      if (typeof msg?.response?.json === "function") {
+        const data = await msg.response.json();
+        msg.response = { data };
       }
 
       return await Promise.reject(err);
@@ -117,4 +121,6 @@ export class CoreService {
   };
 }
 
-export const client = new CoreService();
+const client = new CoreService();
+
+export default client;

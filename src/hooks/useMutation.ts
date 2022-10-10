@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
-import { activity } from "services/activities";
 import { Activities } from "types/data";
-// import activitiesService from "services/activities";
+import activity from "services/activities";
 // import todosService from "services/todos";
 
 export const useCreateActivities = () => {
@@ -15,17 +14,17 @@ export const useCreateActivities = () => {
   );
 };
 
-// export const useUpdateActivities = () => {
-//   const queryClient = useQueryClient();
+export const useUpdateActivities = () => {
+  const queryClient = useQueryClient();
 
-//   return useMutation(
-//     ({ json, id }: { json: Todos; id: number }) =>
-//       activitiesService.updateActivities(id, { ...json }),
-//     {
-//       onSuccess: () => queryClient.invalidateQueries("listDetailActivity"),
-//     },
-//   );
-// };
+  return useMutation(
+    ({ json, id }: { json: Activities; id: number }) =>
+      activity.updateActivities(id, { ...json }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("listDetailActivity"),
+    },
+  );
+};
 
 export const useDeleteActivities = () =>
   useMutation((id: number) => activity.deleteActivities(id));

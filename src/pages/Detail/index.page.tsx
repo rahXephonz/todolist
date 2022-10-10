@@ -13,10 +13,12 @@ import { useEffect, useRef, useState } from "react";
 // import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
-// import { useUpdateActivities } from "hooks/useMutation";
+
 import { useProvideTodos, useProvideAction } from "hooks/useProvide";
 import useDisclosure from "hooks/useDisclosure";
 import useOnClickOutside from "use-onclickoutside";
+import { useFetchDetailActivities } from "hooks/useFetch";
+import { useUpdateActivities } from "hooks/useMutation";
 
 export const Detail = () => {
   const [modeEdit, setModeEdit] = useState(false);
@@ -39,49 +41,57 @@ export const Detail = () => {
   //   refetch,
   // } = useFetchAllTodos(idQuery);
 
-  // const { data: detailActivity } = useFetchDetailActivities(idQuery);
-  // const { mutate: updateActivity } = useUpdateActivities();
-  // const { register, watch, reset } = useForm<{ title: string }>({
-  //   defaultValues: {},
-  // });
+  const {
+    data: detailActivity,
+    isLoading: detailLoading,
+    isError: detailError,
+  } = useFetchDetailActivities(idQuery);
 
-  // const watchValue = watch("title");
-  // const { title, id: activityId } = detailActivity || {};
+  const isError = detailError;
+  const isLoading = detailLoading;
 
-  // useEffect(() => {
-  //   if (!id) push("/");
-  // }, [id, push]);
+  const { mutate: updateActivity } = useUpdateActivities();
+  const { register, watch, reset } = useForm<{ title: string }>({
+    defaultValues: {},
+  });
 
-  // useEffect(() => {
-  //   if (title) reset({ title });
-  // }, [reset, title]);
+  const watchValue = watch("title");
+  const { title, id: activityId } = detailActivity || {};
+
+  useEffect(() => {
+    if (!id) push("/");
+  }, [id, push]);
+
+  useEffect(() => {
+    if (title) reset({ title });
+  }, [reset, title]);
 
   // useEffect(() => {
   //   if (listTodos) setTodos({ todosItem: listTodos.data });
   // }, [listTodos, setTodos]);
 
-  // const onClickOutside = () => {
-  //   setModeEdit(false);
+  const onClickOutside = () => {
+    setModeEdit(false);
 
-  //   if (watchValue === title) return;
-  //   else updateActivity({ id: activityId, json: { title: watchValue } });
-  // };
+    if (watchValue === title) return;
+    else updateActivity({ id: activityId, json: { title: watchValue } });
+  };
 
-  // useOnClickOutside(ref, onClickOutside);
+  useOnClickOutside(ref, onClickOutside);
 
   // const onAddTodos = () => {
   //   setState({ typeAction: "create", priority: "normal" });
   //   onOpen();
   // };
 
-  // const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     setModeEdit(false);
+  const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setModeEdit(false);
 
-  //     if (watchValue === title) return;
-  //     else updateActivity({ id: activityId, json: { title: watchValue } });
-  //   }
-  // };
+      if (watchValue === title) return;
+      else updateActivity({ id: activityId, json: { title: watchValue } });
+    }
+  };
 
   return (
     <>
@@ -89,7 +99,7 @@ export const Detail = () => {
         description="Todo detail dashboard"
         title="To Do Detail - Dashboard"
       />
-      {/* <div className="header flex justify-between items-center my-10">
+      <div className="header flex justify-between items-center my-10">
         <div
           className="header-container flex space-x-6 items-center"
           onClick={() => setModeEdit(true)}
@@ -124,7 +134,7 @@ export const Detail = () => {
           </button>
         </div>
 
-        <div className="action-menu flex space-x-4 items-center">
+        {/* <div className="action-menu flex space-x-4 items-center">
           <Dropdown />
 
           <button
@@ -137,22 +147,22 @@ export const Detail = () => {
             <TablePlus />
             <p className="text-lg">Tambah</p>
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="detail-content mb-10">
-        {listError && (
+        {isError && (
           <div className="flex justify-center w-full mt-20">
             Oops! Something went wrong
           </div>
         )}
 
-        {listLoading && (
+        {isLoading && (
           <div className="flex justify-center w-full mt-20">
             <Spinner />
           </div>
         )}
 
-        {todosItem?.length
+        {/* {todosItem?.length
           ? todosItem?.map((item) => (
               <ListTodos todos={item} key={item.id} refetch={refetch} />
             ))
@@ -163,8 +173,8 @@ export const Detail = () => {
               >
                 <TodoEmptyState onClick={onAddTodos} />
               </div>
-            )}
-      </div> */}
+            )} */}
+      </div>
 
       {/* Create Todos */}
       {/* {isOpen && (

@@ -1,19 +1,12 @@
 import { omit } from "lodash";
 import { useQuery } from "react-query";
-// import todosService from "services/todos";
-import { activity } from "services/activities";
+import activity from "services/activities";
 import lib from "libs/transforms";
 
 // const useFetchAllTodos = (id: number) => {
 //   return useQuery(["listTodos"], () => todosService.getAllTodosData(id), {
 //     keepPreviousData: true,
 //   });
-// };
-
-// const useFetchDetailActivities = (id: number) => {
-//   return useQuery(["listDetailActivity"], () =>
-//     activitiesService.getDetailActivitiesData(id),
-//   );
 // };
 
 const useFetchAllActivities = () => {
@@ -34,4 +27,10 @@ const useFetchAllActivities = () => {
   };
 };
 
-export { useFetchAllActivities };
+const useFetchDetailActivities = (id: number) => {
+  return useQuery(["listDetailActivity"], () =>
+    activity.getDetailActivitiesData(id),
+  );
+};
+
+export { useFetchAllActivities, useFetchDetailActivities };
