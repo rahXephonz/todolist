@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
-import { Activities } from "types/data";
+import { Activities, Todos } from "types/data";
 import activity from "services/activities";
-// import todosService from "services/todos";
+import todo from "services/todos";
 
 export const useCreateActivities = () => {
   const queryClient = useQueryClient();
@@ -29,19 +29,19 @@ export const useUpdateActivities = () => {
 export const useDeleteActivities = () =>
   useMutation((id: number) => activity.deleteActivities(id));
 
-// export const useCreateTodos = () => {
-//   const queryClient = useQueryClient();
+export const useCreateTodos = () => {
+  const queryClient = useQueryClient();
 
-//   return useMutation((json: Todos) => todosService.createTodos({ ...json }), {
-//     onSuccess: () => queryClient.invalidateQueries("listTodos"),
-//   });
-// };
+  return useMutation((json: Todos) => todo.createTodos({ ...json }), {
+    onSuccess: () => queryClient.invalidateQueries("listTodos"),
+  });
+};
 
-// export const useUpdateTodos = () => {
-//   return useMutation(({ json, id }: { json: Todos; id: number }) =>
-//     todosService.updateTodos(id, { ...json }),
-//   );
-// };
+export const useUpdateTodos = () => {
+  return useMutation(({ json, id }: { json: Todos; id: number }) =>
+    todo.updateTodos(id, { ...json }),
+  );
+};
 
-// export const useDeleteTodos = () =>
-//   useMutation((id: number) => todosService.deleteTodos(id));
+export const useDeleteTodos = () =>
+  useMutation((id: number) => todo.deleteTodos(id));

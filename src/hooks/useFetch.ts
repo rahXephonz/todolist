@@ -29,7 +29,7 @@ const useFetchAllActivities = () => {
 
 const useFetchDetailActivities = (id: number) => {
   return useQuery(["listDetailActivity"], () =>
-    activity.getDetailActivitiesData(id),
+    activity.getDetailActivities(id),
   );
 };
 

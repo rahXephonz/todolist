@@ -1,58 +1,35 @@
-// import apiClient from "libs/apiClient";
-// import lib from "libs/transforms";
-// import type { Todos } from "types/data";
+import { Todos } from "types/data";
+import { CoreService } from "./core";
 
-// const getAllTodosData = async (id: number) => {
-//   const response = await apiClient.get<{ data: Todos[] }>(
-//     `/todo-items${id ? `?activity_group_id=${id}` : ""}`,
-//   );
+class Todo extends CoreService {
+  deleteTodos = async (id: number) => {
+    return await this.fetch(`/todo-items/${id}`, "DELETE");
+  };
 
-//   return lib.transformObjectKeysToCamelCase(response.data);
-// };
+  getAllTodos = async (id: number) => {
+    return await this.fetch<{ data: Todos[] }>(
+      `/todo-items${id ? `?activity_group_id=${id}` : ""}`,
+      "GET",
+    );
+  };
 
-// const createTodos = async ({
-//   title,
-//   activity_group_id,
-//   priority,
-//   is_active,
-// }: Todos) => {
-//   const response = await apiClient.post<Todos>("/todo-items", {
-//     activity_group_id,
-//     title,
-//     priority,
-//     is_active,
-//   });
+  createTodos = async (props: Todos) => {
+    return await this.fetch("/todo-items", "POST", {
+      json: {
+        ...props,
+      },
+    });
+  };
 
-//   return response.data;
-// };
+  updateTodos = async (id: number, props: Todos) => {
+    return await this.fetch(`/todo-items/${id}`, "PATCH", {
+      json: {
+        ...props,
+      },
+    });
+  };
+}
 
-// const updateTodos = async (
-//   id: number,
-//   { is_active, priority, title, activity_group_id }: Todos,
-// ) => {
-//   const response = await apiClient.patch<Todos>(`/todo-items/${id}`, {
-//     activity_group_id,
-//     title,
-//     priority,
-//     is_active,
-//   });
+const todo = new Todo();
 
-//   return response.data;
-// };
-
-// const deleteTodos = async (id: number) => {
-//   const response = await apiClient.delete(`/todo-items/${id}`);
-
-//   return response.data;
-// };
-
-// const todosService = {
-//   getAllTodosData,
-//   createTodos,
-//   updateTodos,
-//   deleteTodos,
-// };
-
-// export default todosService;
-
-export {};
+export default todo;

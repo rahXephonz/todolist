@@ -2,12 +2,12 @@ import { Activities } from "types/data";
 import { CoreService } from "./core";
 
 class Activity extends CoreService {
-  getDetailActivitiesData = async (id: number) => {
+  getDetailActivities = async (id: number) => {
     return await this.fetch<Activities>(`/activity-groups/${id}`, "GET");
   };
 
   deleteActivities = async (id: number) => {
-    return await this.fetch<Activities>(`/activity-groups/${id}`, "DELETE");
+    return await this.fetch(`/activity-groups/${id}`, "DELETE");
   };
 
   getAllActivities = async () => {
@@ -18,7 +18,7 @@ class Activity extends CoreService {
   };
 
   createActivities = async (props: Activities) => {
-    return await this.fetch<Activities>("/activity-groups", "POST", {
+    return await this.fetch("/activity-groups", "POST", {
       json: {
         ...props,
       },
@@ -26,7 +26,7 @@ class Activity extends CoreService {
   };
 
   updateActivities = async (id: number, props: Activities) => {
-    return await this.fetch<Activity>(`/activity-groups/${id}`, "PATCH", {
+    return await this.fetch(`/activity-groups/${id}`, "PATCH", {
       json: {
         ...props,
       },
