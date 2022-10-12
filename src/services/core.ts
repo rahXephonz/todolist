@@ -10,14 +10,14 @@ enum MethodKey {
 }
 
 interface FetchOptions {
-  body?: FormData;
-  json?: object;
-  mode?: string;
-  params?: object;
-  headers?: object;
-  isPrivate?: boolean;
-  local?: boolean;
-  manualUrl?: boolean;
+  body: FormData;
+  json: object;
+  mode: string;
+  params: object;
+  headers: object;
+  isPrivate: boolean;
+  local: boolean;
+  manualUrl: boolean;
 }
 
 interface Errors {
@@ -40,7 +40,7 @@ export class CoreService {
     }
   };
 
-  fetch = async <T>(
+  fetch = async <TypeResult>(
     path = "/",
     method: keyof typeof MethodKey = "GET",
     {
@@ -50,8 +50,8 @@ export class CoreService {
       headers,
       manualUrl = false,
       ...opts
-    }: FetchOptions = {},
-  ): Promise<T> => {
+    }: Partial<FetchOptions> = {},
+  ): Promise<TypeResult> => {
     const search = params ? encode(params, "?") : "";
 
     const url = manualUrl ? path : `${process.env.API_KEY}${path}${search}`;
@@ -73,7 +73,7 @@ export class CoreService {
 
       if (resp?.statusText === "No Content") {
         // bypass when it is csrf-cookie request
-        return await Promise.resolve({} as T);
+        return await Promise.resolve({} as TypeResult);
       }
 
       const jsonBody = await resp?.json();
