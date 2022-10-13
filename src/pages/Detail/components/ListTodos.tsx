@@ -10,7 +10,6 @@ import parseTypeData from "utils/parse";
 import lib from "libs/transforms";
 import Popup from "./Popup";
 import useDisclosure from "hooks/useDisclosure";
-import { useProvideAction, useProvideTodos } from "hooks/useProvide";
 
 type ListTodosProps = {
   refetch: () => void;
@@ -20,13 +19,13 @@ type ListTodosProps = {
 const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const { mutate: updateTodos } = useUpdateTodos();
   const { mutate: deleteTodos } = useDeleteTodos();
-  const {
-    setState: setTodos,
-    state: { todosItem },
-  } = useProvideTodos();
+  // const {
+  //   setState: setTodos,
+  //   state: { todosItem },
+  // } = useProvideTodos();
 
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { setState } = useProvideAction();
+  // const { setState } = useProvideAction();
   const { toBool, toNumber } = parseTypeData;
   const { isActive, priority, id, title } =
     lib.transformObjectKeysToCamelCase(todos);
@@ -35,15 +34,12 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const [isOpenPopupEdit, setIsOpenPopupEdit] = useState<boolean>(false);
   const [childModalOpen, setChildModalOpen] = useState<boolean>(false);
 
-  const removeObjectWithId = useCallback(
-    (arr: Todos[], id: number) => {
-      const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
-      arr.splice(objWithIdIndex, 1);
+  const removeObjectWithId = useCallback((arr: Todos[], id: number) => {
+    const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
+    arr.splice(objWithIdIndex, 1);
 
-      setTodos({ todosItem: arr });
-    },
-    [setTodos],
-  );
+    // setTodos({ todosItem: arr });
+  }, []);
 
   const onChange = () => {
     setIsChecked((v) => !v);
@@ -71,13 +67,13 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const onCloseChildModal = () => {
     setChildModalOpen(false);
 
-    removeObjectWithId(todosItem, id);
+    // removeObjectWithId(todosItem, id);
   };
 
   const onUpdateTodos = () => {
-    setState({ typeAction: "update", priority } as {
-      priority: Priority;
-    });
+    // setState({ typeAction: "update", priority } as {
+    //   priority: Priority;
+    // });
     setIsOpenPopupEdit(true);
   };
 

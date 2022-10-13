@@ -5,17 +5,9 @@ import todo from "services/todos";
 import lib from "libs/transforms";
 
 const useFetchAllTodos = (id?: number) => {
-  const result = useQuery(["listTodos"], () => todo.getAllTodos(id), {
+  return useQuery(["listTodos"], () => todo.getAllTodos(id), {
     keepPreviousData: true,
   });
-
-  const options = omit(result, "data");
-  const data = lib.transformObjectKeysToCamelCase(result.data);
-
-  return {
-    data,
-    ...options,
-  };
 };
 
 const useFetchAllActivities = () => {

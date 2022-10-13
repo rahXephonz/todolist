@@ -7,6 +7,7 @@ import Spinner from "components/icon/Spinner";
 import TablePlus from "components/icon/TablePlus";
 import ListTodos from "./components/ListTodos";
 import Dropdown from "./components/DropDown";
+import lib from "libs/transforms";
 
 import { useRouter } from "hooks/useRouter";
 import { useEffect, useRef, useState } from "react";
@@ -14,23 +15,25 @@ import { useFetchAllTodos } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
 
-import { useProvideTodos, useProvideAction } from "hooks/useProvide";
 import useDisclosure from "hooks/useDisclosure";
 import useOnClickOutside from "use-onclickoutside";
 import { useFetchDetailActivities } from "hooks/useFetch";
 import { useUpdateActivities } from "hooks/useMutation";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { updateTodosItem } from "state/slices/todoSlices";
+import { updateTypeAction } from "state/slices/actionSlices";
 
 export const Detail = () => {
+  const dispatch = useAppDispatch();
   const [modeEdit, setModeEdit] = useState(false);
 
-  const { query, push } = useRouter();
-  const { id } = query;
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const { setState } = useProvideAction();
   const {
-    setState: setTodos,
-    state: { todosItem },
-  } = useProvideTodos();
+    query: { id },
+    push,
+  } = useRouter();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { todosItem } = useAppSelector((state) => state.todos);
+
   const ref = useRef();
   const idQuery = parseInt(id as string);
 
@@ -67,9 +70,11 @@ export const Detail = () => {
   }, [reset, title]);
 
   useEffect(() => {
-    if (listTodos) setTodos({ todosItem: listTodos.data });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listTodos, setTodos]);
+    if (listTodos) {
+      const data = lib.transformObjectKeysToCamelCase(listTodos.data);
+      dispatch(updateTodosItem(data));
+    }
+  }, [dispatch, listTodos]);
 
   const onClickOutside = () => {
     setModeEdit(false);
@@ -81,7 +86,7 @@ export const Detail = () => {
   useOnClickOutside(ref, onClickOutside);
 
   const onAddTodos = () => {
-    setState({ typeAction: "create", priority: "normal" });
+    dispatch(updateTypeAction("create"));
     onOpen();
   };
 
@@ -165,7 +170,7 @@ export const Detail = () => {
 
         {todosItem?.length
           ? todosItem?.map((item) => (
-              <ListTodos todos={item} key={item.id} refetch={refetch} />
+              <ListTodos key={item.id} refetch={refetch} todos={item} />
             ))
           : !listLoading && (
               <div

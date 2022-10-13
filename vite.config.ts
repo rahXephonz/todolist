@@ -22,6 +22,7 @@ export default defineConfig((configEnv) => {
         libs: resolve(__dirname, "src", "libs"),
         types: resolve(__dirname, "src", "types"),
         utils: resolve(__dirname, "src", "utils"),
+        state: resolve(__dirname, "src", "state"),
       },
     },
     css: {

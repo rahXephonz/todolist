@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { useProvideAction } from "hooks/useProvide";
+// import { useProvideAction } from "hooks/useProvide";
 import { Priority } from "types/data";
 import cx from "classnames";
 import getColor from "utils/getColor";
@@ -22,17 +22,17 @@ const ListItem = ({ itemPriority, action }: ListItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
-  const { setState } = useProvideAction();
+  // const { setState } = useProvideAction();
 
   const onSetPriority = useCallback(
     (item: Priority) => {
       setIsOpen(false);
 
-      if (action === "create")
-        setState({ priority: item, typeAction: "create" });
-      else setState({ priority: item, typeAction: "update" });
+      if (action === "create") return;
+      // setState({ priority: item, typeAction: "create" });
+      // else setState({ priority: item, typeAction: "update" });
     },
-    [action, setState],
+    [action],
   );
 
   useOnClickOutside(ref, () => setIsOpen(false));

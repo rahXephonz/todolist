@@ -1,9 +1,9 @@
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { HelmetProvider } from "react-helmet-async";
-import { ActionStateProvider } from "hooks/context/ActionContext";
-import { TodoStateProvider } from "hooks/context/TodosContext";
+import { Provider as ReduxProvider } from "react-redux";
 import Navigation from "routes/Navigation";
+import store from "state/store";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,15 +17,13 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <BrowserRouter basename="/">
-      <ActionStateProvider>
-        <TodoStateProvider>
-          <HelmetProvider>
-            <QueryClientProvider client={queryClient}>
-              <Navigation />
-            </QueryClientProvider>
-          </HelmetProvider>
-        </TodoStateProvider>
-      </ActionStateProvider>
+      <ReduxProvider store={store}>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <Navigation />
+          </QueryClientProvider>
+        </HelmetProvider>
+      </ReduxProvider>
     </BrowserRouter>
   );
 };

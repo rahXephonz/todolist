@@ -26,7 +26,8 @@
       "services/*": ["src/services/*"],
       "libs/*": ["src/libs/*"],
       "types/*": ["src/types/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "state/*": ["src/state/*"]
     }
   },
   "include": ["./src"]
