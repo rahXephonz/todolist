@@ -22,7 +22,7 @@ const TodoStateProvider = ({
   } as ITodoState,
 }: {
   children: React.ReactNode;
-  value?: ITodoState;
+  value?: Partial<ITodoState>;
 }) => {
   const [state, setState] = useState(value);
 

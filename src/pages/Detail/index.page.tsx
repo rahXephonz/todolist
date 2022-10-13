@@ -10,7 +10,7 @@ import Dropdown from "./components/DropDown";
 
 import { useRouter } from "hooks/useRouter";
 import { useEffect, useRef, useState } from "react";
-// import { useFetchAllTodos, useFetchDetailActivities } from "hooks/useFetch";
+import { useFetchAllTodos } from "hooks/useFetch";
 import { TodoEmptyState } from "components/icon/EmptyState";
 import { useForm } from "react-hook-form";
 
@@ -34,12 +34,12 @@ export const Detail = () => {
   const ref = useRef();
   const idQuery = parseInt(id as string);
 
-  // const {
-  //   data: listTodos,
-  //   isLoading: listLoading,
-  //   isError: listError,
-  //   refetch,
-  // } = useFetchAllTodos(idQuery);
+  const {
+    data: listTodos,
+    isLoading: listLoading,
+    isError: listError,
+    refetch,
+  } = useFetchAllTodos(idQuery);
 
   const {
     data: detailActivity,
@@ -47,7 +47,7 @@ export const Detail = () => {
     isError: detailError,
   } = useFetchDetailActivities(idQuery);
 
-  const isError = detailError;
+  const isError = detailError || listError;
   const isLoading = detailLoading;
 
   const { mutate: updateActivity } = useUpdateActivities();
@@ -66,9 +66,10 @@ export const Detail = () => {
     if (title) reset({ title });
   }, [reset, title]);
 
-  // useEffect(() => {
-  //   if (listTodos) setTodos({ todosItem: listTodos.data });
-  // }, [listTodos, setTodos]);
+  useEffect(() => {
+    if (listTodos) setTodos({ todosItem: listTodos.data });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listTodos, setTodos]);
 
   const onClickOutside = () => {
     setModeEdit(false);
@@ -79,10 +80,10 @@ export const Detail = () => {
 
   useOnClickOutside(ref, onClickOutside);
 
-  // const onAddTodos = () => {
-  //   setState({ typeAction: "create", priority: "normal" });
-  //   onOpen();
-  // };
+  const onAddTodos = () => {
+    setState({ typeAction: "create", priority: "normal" });
+    onOpen();
+  };
 
   const onHandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -134,7 +135,7 @@ export const Detail = () => {
           </button>
         </div>
 
-        {/* <div className="action-menu flex space-x-4 items-center">
+        <div className="action-menu flex space-x-4 items-center">
           <Dropdown />
 
           <button
@@ -147,7 +148,7 @@ export const Detail = () => {
             <TablePlus />
             <p className="text-lg">Tambah</p>
           </button>
-        </div> */}
+        </div>
       </div>
       <div className="detail-content mb-10">
         {isError && (
@@ -162,7 +163,7 @@ export const Detail = () => {
           </div>
         )}
 
-        {/* {todosItem?.length
+        {todosItem?.length
           ? todosItem?.map((item) => (
               <ListTodos todos={item} key={item.id} refetch={refetch} />
             ))
@@ -173,13 +174,13 @@ export const Detail = () => {
               >
                 <TodoEmptyState onClick={onAddTodos} />
               </div>
-            )} */}
+            )}
       </div>
 
       {/* Create Todos */}
-      {/* {isOpen && (
+      {isOpen && (
         <Popup closeModal={onClose} isOpen={true} activityId={id as string} />
-      )} */}
+      )}
     </>
   );
 };
