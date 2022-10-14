@@ -2,7 +2,8 @@ import { Fragment, useCallback, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useCreateTodos, useUpdateTodos } from "hooks/useMutation";
-// import { useProvideAction } from "hooks/useProvide";
+import { useAppSelector } from "state/store";
+
 import lib from "libs/transforms";
 import CloseIcon from "components/icon/CloseIcon";
 import cx from "classnames";
@@ -32,9 +33,9 @@ const Popup = ({
     defaultValues: {},
   });
 
-  // const {
-  //   state: { typeAction: action, priority },
-  // } = useProvideAction();
+  const { typeAction: action, priority } = useAppSelector(
+    (state) => state.action,
+  );
 
   const {
     mutate: createTodos,
@@ -52,33 +53,33 @@ const Popup = ({
   const isSuccess = createSuccess || updateSuccess;
   const isDisabled = !watchValue?.length;
 
-  // const onSubmit = useCallback(
-  //   ({ title }) => {
-  //     if (action === "create") {
-  //       const data = {
-  //         title,
-  //         activityGroupId: activityId,
-  //         priority: priority,
-  //         isActive: true,
-  //       };
+  const onSubmit = useCallback(
+    ({ title }) => {
+      if (action === "create") {
+        const data = {
+          title,
+          activityGroupId: activityId,
+          priority: priority,
+          isActive: true,
+        };
 
-  //       createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
-  //     } else {
-  //       updateTodos(
-  //         { id: todoId, json: { priority, title } },
-  //         {
-  //           onSuccess: () => refetch(),
-  //         },
-  //       );
-  //     }
-  //   },
-  //   [action, activityId, priority, createTodos, updateTodos, todoId, refetch],
-  // );
+        createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
+      } else {
+        updateTodos(
+          { id: todoId, json: { priority, title } },
+          {
+            onSuccess: () => refetch(),
+          },
+        );
+      }
+    },
+    [action, activityId, priority, createTodos, updateTodos, todoId, refetch],
+  );
 
-  // useEffect(() => {
-  //   if (action === "update") reset({ title: titleTodo });
-  //   else reset(null);
-  // }, [action, reset, titleTodo]);
+  useEffect(() => {
+    if (action === "update") reset({ title: titleTodo });
+    else reset(null);
+  }, [action, reset, titleTodo]);
 
   useEffect(() => {
     if (isSuccess) closeModal();
@@ -104,7 +105,7 @@ const Popup = ({
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
 
-        {/* <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center">
             <Transition.Child
               as={Fragment}
@@ -192,7 +193,7 @@ const Popup = ({
               </Dialog.Panel>
             </Transition.Child>
           </div>
-        </div> */}
+        </div>
       </Dialog>
     </Transition>
   );

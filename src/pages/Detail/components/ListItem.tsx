@@ -1,9 +1,13 @@
 import { useCallback, useRef, useState } from "react";
-// import { useProvideAction } from "hooks/useProvide";
 import { Priority } from "types/data";
 import cx from "classnames";
 import getColor from "utils/getColor";
 import useOnClickOutside from "use-onclickoutside";
+import { useAppDispatch } from "state/store";
+import {
+  updatePriorityAction,
+  updateTypeAction,
+} from "state/slices/actionSlices";
 
 const optionList: Array<Priority> = [
   "very-high",
@@ -21,18 +25,17 @@ type ListItemProps = {
 const ListItem = ({ itemPriority, action }: ListItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
-
-  // const { setState } = useProvideAction();
+  const dispatch = useAppDispatch();
 
   const onSetPriority = useCallback(
     (item: Priority) => {
       setIsOpen(false);
+      dispatch(updatePriorityAction(item));
 
-      if (action === "create") return;
-      // setState({ priority: item, typeAction: "create" });
-      // else setState({ priority: item, typeAction: "update" });
+      if (action === "create") dispatch(updateTypeAction("create"));
+      else dispatch(updateTypeAction("update"));
     },
-    [action],
+    [action, dispatch],
   );
 
   useOnClickOutside(ref, () => setIsOpen(false));

@@ -1,7 +1,7 @@
 import { orderBy } from "lodash";
-import lib from "libs/transforms";
 import { useAppDispatch, useAppSelector } from "state/store";
 import { updateTodosItem } from "state/slices/todoSlices";
+import lib from "libs/transforms";
 
 const useSorter = () => {
   const dispatch = useAppDispatch();
@@ -9,15 +9,12 @@ const useSorter = () => {
 
   const sortedOlder = () => {
     const sorted = orderBy(todosItem, ["id"], "asc");
-
-    // setState({ todosItem: sorted });
     dispatch(updateTodosItem(sorted));
   };
 
   const sortedNewer = () => {
     const sorted = orderBy(todosItem, ["id"], "desc");
-
-    // setState({ todosItem: sorted });
+    dispatch(updateTodosItem(sorted));
   };
 
   const sortedAZ = () => {
@@ -27,7 +24,7 @@ const useSorter = () => {
       ["asc"],
     );
 
-    // setState({ todosItem: sorted });
+    dispatch(updateTodosItem(sorted));
   };
 
   const sortedZA = () => {
@@ -37,13 +34,14 @@ const useSorter = () => {
       ["desc"],
     );
 
-    // setState({ todosItem: sorted });
+    dispatch(updateTodosItem(sorted));
   };
 
   const sortedIncomplete = () => {
-    // const todos = lib.transformObjectKeysToCamelCase(state.todosItem);
-    // const sorted = orderBy(todos, ["isActive"], "desc");
-    // setState({ todosItem: sorted });
+    const todos = lib.transformObjectKeysToCamelCase(todosItem);
+
+    const sorted = orderBy(todos, ["isActive"], "desc");
+    dispatch(updateTodosItem(sorted));
   };
 
   return {

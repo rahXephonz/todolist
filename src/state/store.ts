@@ -12,7 +12,7 @@ export function makeStore() {
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        // immutableCheck: { warnAfter: 128 },
+        immutableCheck: { warnAfter: 128 },
         serializableCheck: {
           warnAfter: 128,
           ignoredActions: [],
