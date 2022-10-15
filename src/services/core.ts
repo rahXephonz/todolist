@@ -30,7 +30,7 @@ interface Errors {
 }
 
 export class CoreService {
-  intercept500Error = async (err: Errors) => {
+  private intercept500Error = async (err: Errors) => {
     if (err?.status === 500) {
       const customErr = {
         ...err,
@@ -40,7 +40,7 @@ export class CoreService {
     }
   };
 
-  fetch = async <TypeResult>(
+  protected fetch = async <TypeResult>(
     path = "/",
     method: keyof typeof MethodKey = "GET",
     {
@@ -92,9 +92,8 @@ export class CoreService {
 
       return await Promise.resolve(responseBody);
     } catch (err: unknown) {
-      console.log("err", err);
-
       const msg = err as Errors;
+      process.env.NODE_ENV === "development" && console.log("err", err);
 
       if (err instanceof Error) {
         // deal with network error / CORS error

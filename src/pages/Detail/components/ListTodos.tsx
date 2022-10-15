@@ -48,7 +48,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   );
 
   const onChange = () => {
-    setIsChecked((v) => !v);
+    setIsChecked((prevVal) => !prevVal);
 
     // only update isActive
     const data = {
