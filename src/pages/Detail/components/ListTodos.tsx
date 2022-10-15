@@ -40,14 +40,15 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   const removeObjectWithId = useCallback(
     (arr: Todos[], id: number) => {
       const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
-      arr.splice(objWithIdIndex, 1);
+
+      [...arr].splice(objWithIdIndex, 1);
 
       dispatch(updateTodosItem(arr));
     },
     [dispatch],
   );
 
-  const onChange = () => {
+  const onChange = useCallback(() => {
     setIsChecked((prevVal) => !prevVal);
 
     // only update isActive
@@ -62,7 +63,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
         onSuccess: () => refetch(),
       },
     );
-  };
+  }, [id, isChecked, priority, refetch, toNumber, updateTodos]);
 
   const onDelete = () => {
     deleteTodos(id);
@@ -74,6 +75,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
     setChildModalOpen(false);
 
     removeObjectWithId(todosItem, id);
+    refetch();
   };
 
   const onUpdateTodos = () => {
