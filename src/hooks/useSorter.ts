@@ -1,7 +1,7 @@
 import { orderBy } from "lodash";
 import { useAppDispatch, useAppSelector } from "state/store";
 import { updateTodosItem } from "state/slices/todoSlices";
-import lib from "libs/transforms";
+import { transformToCamelCase } from "transform-obj";
 
 const useSorter = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ const useSorter = () => {
   };
 
   const sortedIncomplete = () => {
-    const todos = lib.transformObjectKeysToCamelCase(todosItem);
+    const todos = transformToCamelCase(todosItem);
 
     const sorted = orderBy(todos, ["isActive"], "desc");
     dispatch(updateTodosItem(sorted));

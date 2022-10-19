@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { useCreateTodos, useUpdateTodos } from "hooks/useMutation";
 import { useAppSelector } from "state/store";
 
-import lib from "libs/transforms";
+import { transformToSnakeCase } from "transform-obj";
+import parse from "utils/parse";
 import CloseIcon from "components/icon/CloseIcon";
 import cx from "classnames";
 import ListItem from "./ListItem";
@@ -60,10 +61,10 @@ const Popup = ({
           title,
           activityGroupId: activityId,
           priority: priority,
-          isActive: true,
+          isActive: parse.toNumber(true),
         };
 
-        createTodos({ ...lib.transformObjectKeysToSnakeCase(data) });
+        createTodos({ ...transformToSnakeCase(data) });
       } else {
         updateTodos(
           { id: todoId, json: { priority, title } },

@@ -7,7 +7,7 @@ import Spinner from "components/icon/Spinner";
 import TablePlus from "components/icon/TablePlus";
 import ListTodos from "./components/ListTodos";
 import Dropdown from "./components/DropDown";
-import lib from "libs/transforms";
+import { transformToCamelCase } from "transform-obj";
 
 import { useRouter } from "hooks/useRouter";
 import { useEffect, useRef, useState } from "react";
@@ -71,7 +71,7 @@ export const Detail = () => {
 
   useEffect(() => {
     if (listTodos) {
-      const data = lib.transformObjectKeysToCamelCase(listTodos.data);
+      const data = transformToCamelCase(listTodos.data);
       dispatch(updateTodosItem(data));
     }
   }, [dispatch, listTodos]);

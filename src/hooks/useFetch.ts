@@ -1,8 +1,8 @@
 import { omit } from "lodash";
+import { transformToCamelCase } from "transform-obj";
 import { useQuery } from "react-query";
 import activity from "services/activities";
 import todo from "services/todos";
-import lib from "libs/transforms";
 
 const useFetchAllTodos = (id?: number) => {
   return useQuery(["listTodos"], () => todo.getAllTodos(id), {
@@ -20,7 +20,7 @@ const useFetchAllActivities = () => {
   );
 
   const options = omit(result, "data");
-  const data = lib.transformObjectKeysToCamelCase(result.data);
+  const data = transformToCamelCase(result.data);
 
   return {
     data,

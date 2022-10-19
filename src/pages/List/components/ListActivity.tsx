@@ -3,7 +3,7 @@ import { convertDate } from "libs/dayJs";
 import { useState, memo } from "react";
 import { useDeleteActivities } from "hooks/useMutation";
 
-import lib from "libs/transforms";
+import { transformToCamelCase } from "transform-obj";
 import TrashIcon from "components/icon/TrashIcon";
 import Modal, { ChildModal } from "components/Modal";
 import useDisclosure from "hooks/useDisclosure";
@@ -19,8 +19,7 @@ const ListActivity = ({ refetch, ...props }: ListActivityProps) => {
   const [childModalOpen, setChildModalOpen] = useState(false);
 
   const { push } = useRouter();
-  const { id, title, createdAt } =
-    lib.transformObjectKeysToCamelCase(dataProps);
+  const { id, title, createdAt } = transformToCamelCase(dataProps);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { mutate: deleteActivity } = useDeleteActivities();

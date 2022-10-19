@@ -7,7 +7,7 @@ import cx from "classnames";
 import getColor from "utils/getColor";
 import EditIcon from "components/icon/EditIcon";
 import parseTypeData from "utils/parse";
-import lib from "libs/transforms";
+import { transformToCamelCase, transformToSnakeCase } from "transform-obj";
 import Popup from "./Popup";
 import useDisclosure from "hooks/useDisclosure";
 import { useAppDispatch, useAppSelector } from "state/store";
@@ -30,8 +30,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
 
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { toBool, toNumber } = parseTypeData;
-  const { isActive, priority, id, title } =
-    lib.transformObjectKeysToCamelCase(todos);
+  const { isActive, priority, id, title } = transformToCamelCase(todos);
 
   const [isChecked, setIsChecked] = useState<boolean>(!toBool(isActive));
   const [isOpenPopupEdit, setIsOpenPopupEdit] = useState<boolean>(false);
@@ -54,11 +53,11 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
     // only update isActive
     const data = {
       isActive: toNumber(isChecked),
-      priority,
+      priority: priority as Priority,
     };
 
     updateTodos(
-      { id, json: lib.transformObjectKeysToSnakeCase(data) },
+      { id, json: transformToSnakeCase(data) },
       {
         onSuccess: () => refetch(),
       },
@@ -79,7 +78,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
   };
 
   const onUpdateTodos = () => {
-    dispatch(updatePriorityAction(priority as Priority));
+    dispatch(updatePriorityAction(priority));
     dispatch(updateTypeAction("update"));
     setIsOpenPopupEdit(true);
   };
@@ -107,7 +106,7 @@ const ListTodos = ({ todos, refetch }: ListTodosProps) => {
             data-cy="todo-item-priority-indicator"
             className={cx(
               "before:w-3 before:h-3 before:rounded-full before:mr-3 before:inline-block",
-              getColor(priority as Priority),
+              getColor(priority),
             )}
           >
             <span
