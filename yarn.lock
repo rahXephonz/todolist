@@ -2614,10 +2614,10 @@ expect@^29.0.0:
     jest-message-util "^29.1.2"
     jest-util "^29.1.2"
 
-extracts@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/extracts/-/extracts-1.0.2.tgz#d7ccafad43a4d2e9ac5e86f961dbf70601c784d3"
-  integrity sha512-1V9bcrg+Genj0yCJEdKQ5KRa3yFmgqiVLCyIovnBBaxZG9yhP01Jw6cp/BeXT1UgxFEtHTqjOabaSGslezDHcw==
+extracts@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/extracts/-/extracts-1.0.7.tgz#aebdb3a5e584c2e2ac409275dc2f7af128d7d321"
+  integrity sha512-uKzGMytGkzimREMXh2DfY8f8W/Y4pZ4Eb2ijeu1sjeA4tdnU52bRJ4tTT1HpqN/kuDYnlAFWCBeiSzuOkJ3LNw==
   dependencies:
     qss "^2.0.3"
     unfetch "^4.2.0"
@@ -5335,10 +5335,13 @@ tr46@^3.0.0:
   dependencies:
     punycode "^2.1.1"
 
-transform-obj@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/transform-obj/-/transform-obj-1.0.4.tgz#c3496170d704797add39fbb52409a722b656e3b1"
-  integrity sha512-se26zGRj/93VCCdIeO6NGQ4xVzZYj/Rr+SRT6B95AlJYYjF4k6jWfD0JkpEZws/EOdijMP/sMIUebxMoaovHJg==
+transform-obj@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/transform-obj/-/transform-obj-1.0.6.tgz#50a5836db119a7562da8be975dfb089aa489203e"
+  integrity sha512-OW7aN3oBjkt5MVd4oRxpXTjSkxjo+LnSCYWCDB6Q22ylWFzvHzfUchuBamcsT0nnA5ZBcZq8kA6X8aJXmrOtvw==
+  dependencies:
+    lodash "^4.17.21"
+    type-fest "^3.0.0"
 
 trim-newlines@^3.0.0:
   version "3.0.1"
@@ -5448,6 +5451,11 @@ type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
+
+type-fest@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.1.0.tgz#157b74044d9c27fd796b9c6aa46eae6658b1e9b8"
+  integrity sha512-StmrZmK3eD9mDF9Vt7UhqthrDSk66O9iYl5t5a0TSoVkHjl0XZx/xuc/BRz4urAXXGHOY5OLsE0RdJFIApSFmw==
 
 typescript@^4.6.4, typescript@^4.7.4:
   version "4.8.4"
