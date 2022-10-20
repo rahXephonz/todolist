@@ -2614,6 +2614,14 @@ expect@^29.0.0:
     jest-message-util "^29.1.2"
     jest-util "^29.1.2"
 
+extracts@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/extracts/-/extracts-1.0.2.tgz#d7ccafad43a4d2e9ac5e86f961dbf70601c784d3"
+  integrity sha512-1V9bcrg+Genj0yCJEdKQ5KRa3yFmgqiVLCyIovnBBaxZG9yhP01Jw6cp/BeXT1UgxFEtHTqjOabaSGslezDHcw==
+  dependencies:
+    qss "^2.0.3"
+    unfetch "^4.2.0"
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
@@ -5327,10 +5335,10 @@ tr46@^3.0.0:
   dependencies:
     punycode "^2.1.1"
 
-transform-obj@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/transform-obj/-/transform-obj-1.0.3.tgz#5e25928ca487715c5bd5faa796083b61aa4cf4c4"
-  integrity sha512-8jdoykuQhP/JDqNyqgRMkXeDcbzBXwwQ+zIAbwQ9pXu3KxFvBH50EyJOcDpxYT9OevT2M76CL0WGjftw931Mbw==
+transform-obj@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/transform-obj/-/transform-obj-1.0.4.tgz#c3496170d704797add39fbb52409a722b656e3b1"
+  integrity sha512-se26zGRj/93VCCdIeO6NGQ4xVzZYj/Rr+SRT6B95AlJYYjF4k6jWfD0JkpEZws/EOdijMP/sMIUebxMoaovHJg==
 
 trim-newlines@^3.0.0:
   version "3.0.1"

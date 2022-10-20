@@ -1,7 +1,7 @@
 import { Activities } from "types/data";
-import { CoreService } from "./core";
+import { Extracts } from "extracts";
 
-class Activity extends CoreService {
+class Activity extends Extracts {
   getDetailActivities = async (id: number) => {
     return await this.fetch<Activities>(`/activity-groups/${id}`, "GET");
   };
