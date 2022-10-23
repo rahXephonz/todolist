@@ -3,18 +3,18 @@ import { CoreAPI } from "./core";
 
 class Todo extends CoreAPI {
   deleteTodos = async (id: number) => {
-    return await this.fetchjson(`/todo-items/${id}`, "DELETE");
+    return await this.extracts(`/todo-items/${id}`, "DELETE");
   };
 
   getAllTodos = async (id: number) => {
-    return await this.fetchjson<{ data: Todos[] }>(
+    return await this.extracts<{ data: Todos[] }>(
       `/todo-items${id ? `?activity_group_id=${id}` : ""}`,
       "GET",
     );
   };
 
   createTodos = async (props: Todos) => {
-    return await this.fetchjson("/todo-items", "POST", {
+    return await this.extracts("/todo-items", "POST", {
       json: {
         ...props,
       },
@@ -22,7 +22,7 @@ class Todo extends CoreAPI {
   };
 
   updateTodos = async (id: number, props: Todos) => {
-    return await this.fetchjson(`/todo-items/${id}`, "PATCH", {
+    return await this.extracts(`/todo-items/${id}`, "PATCH", {
       json: {
         ...props,
       },

@@ -2614,10 +2614,10 @@ expect@^29.0.0:
     jest-message-util "^29.1.2"
     jest-util "^29.1.2"
 
-extracts@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/extracts/-/extracts-1.0.7.tgz#aebdb3a5e584c2e2ac409275dc2f7af128d7d321"
-  integrity sha512-uKzGMytGkzimREMXh2DfY8f8W/Y4pZ4Eb2ijeu1sjeA4tdnU52bRJ4tTT1HpqN/kuDYnlAFWCBeiSzuOkJ3LNw==
+extracts@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/extracts/-/extracts-1.0.9.tgz#bef1e0ebb9b915dc04e3fa69f15767c9d2984415"
+  integrity sha512-LaOXb/Yvj9AnFImZdtAHoMoGrECNgDdw/zGFlATlFRlHwKL7r+XLlruBExt2NBnh3rRoTc6zTr7EPirFIfItsQ==
   dependencies:
     qss "^2.0.3"
     unfetch "^4.2.0"
